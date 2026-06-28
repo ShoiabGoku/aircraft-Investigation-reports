@@ -4,7 +4,7 @@ A free, self-contained **study & reference** web app on landmark aircraft accide
 
 🔴 **Live site:** https://shoiabgoku.github.io/aircraft-Investigation-reports/
 
-It catalogues 19 documented occurrences (1977–2025) across every manufacturer, region and cause family, each structured the way an official report is — following the **ICAO Annex 13** framework.
+It catalogues **53 documented occurrences (1954–2025)** — fatal *and* survivable — across every manufacturer, region and cause family, each structured the way an official report is, following the **ICAO Annex 13** framework.
 
 ## What's inside
 
@@ -14,9 +14,11 @@ It catalogues 19 documented occurrences (1977–2025) across every manufacturer,
 - **📖 Glossary** — 30 plain-language terms (CVR, FDR, CFIT, LOC-I, MCAS, RESA, hypoxia, Swiss-cheese model…), filterable.
 - **📺 Watch & Learn** — reputable channels and series for further study.
 
-## Cases covered
+## Cases covered (53)
 
-JAL 123 · Tenerife · Pan Am 103 · United 232 · TWA 800 · Swissair 111 · Concorde · Helios 522 · Air France 447 · US Airways 1549 (Hudson) · Colgan 3407 · Asiana 214 · MH370 · Germanwings 9525 · Lion Air 610 · Ethiopian 302 · Air India Express 812 · Jeju Air 2216 · Air India 171.
+**Fatal & landmark:** Comet 781 · Turkish 981 · Tenerife · American 191 · Mt Erebus (Air NZ 901) · Saudia 163 · KAL 007 · Air India 182 (Kanishka) · JAL 123 · Pan Am 103 · United 232 · USAir 427 · American 965 (Cali) · ValuJet 592 · Charkhi Dadri mid-air · Birgenair 301 · Aeroperú 603 · SilkAir 185 · Korean Air 801 (Guam) · TWA 800 · Swissair 111 · Concorde · Alaska 261 · American 587 · Linate · China Airlines 611 · Überlingen · Helios 522 · Air France 447 · Colgan 3407 · Asiana 214 · MH370 · MH17 · AirAsia 8501 · Germanwings 9525 · Lion Air 610 · Ethiopian 302 · Air India Express 812 · Jeju Air 2216 · Air India 171.
+
+**Survivable / famous saves:** Gimli Glider (Air Canada 143) · British Airways 9 (volcanic ash) · Aloha 243 · United 811 · British Airways 5390 · TACA 110 · US Airways 1549 (Hudson) · Air Transat 236 · Cathay Pacific 780 · Qantas 32 · LOT 016 · Southwest 1380 · Japan Airlines 516 (Haneda).
 
 ## How to extend it
 
@@ -24,7 +26,7 @@ All data lives in the `DATA` array near the top of the `<script>` in [`index.htm
 
 ## Tech
 
-A single `index.html` — vanilla HTML/CSS/JS, **no build step, no dependencies, no tracking**. Works offline by opening the file directly. Deployed via GitHub Pages (GitHub Actions workflow in `.github/workflows/`).
+A single `index.html` — vanilla HTML/CSS/JS, **no build step, no dependencies, no tracking**. Works offline by opening the file directly. Deployed via GitHub Pages (Settings → Pages → *Deploy from a branch* → `main` / root).
 
 ## Disclaimer
 
