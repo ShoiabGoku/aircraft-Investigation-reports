@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Aircraft Accident Investigation Registry · Study & Reference</title>
+<meta name="description" content="A free, searchable registry of landmark aircraft accident investigations — causes, contributing factors, safety recommendations and documentary links — built for students and investigators." />
+<style>
+  :root{
+    --bg:#0a0c10;
+    --bg-2:#0e1117;
+    --panel:#12161f;
+    --panel-2:#0f131b;
+    --line:#1d2532;
+    --line-2:#283447;
+    --txt:#e9eef6;
+    --txt-dim:#94a3bd;
+    --txt-faint:#5f6f8c;
+    --orange:#ff6a00;     /* flight-recorder orange */
+    --orange-2:#ff8c3a;
+    --hazard:#ffcf2e;     /* caution stripe yellow */
+    --cyan:#39d0ff;
+    --cyan-dim:#1c87ad;
+    --red:#ff5d6c;
+    --green:#36e29a;
+    --violet:#bb8cff;
+    --shadow:0 20px 55px rgba(0,0,0,.6);
+    --r:14px;
+    --mono:'SFMono-Regular',ui-monospace,'Cascadia Code','Consolas',monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:var(--sans);
+    background:
+      radial-gradient(1200px 600px at 85% -12%,rgba(255,106,0,.07),transparent 60%),
+      radial-gradient(900px 520px at -5% 0%,rgba(57,208,255,.06),transparent 55%),
+      var(--bg);
+    color:var(--txt);min-height:100vh;-webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--cyan);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .hazard{height:5px;background:repeating-linear-gradient(45deg,#16181c 0 14px,var(--hazard) 14px 28px);opacity:.85}
+
+  /* ---------- Header ---------- */
+  header.app{position:sticky;top:0;z-index:40;backdrop-filter:blur(12px);
+    background:linear-gradient(180deg,rgba(10,12,16,.94),rgba(10,12,16,.8));border-bottom:1px solid var(--line)}
+  .bar{max-width:1340px;margin:0 auto;padding:13px 22px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:12px;min-width:0}
+  .logo{width:44px;height:44px;border-radius:11px;flex:0 0 auto;background:radial-gradient(circle at 30% 25%,#3a2a12,#1a1206);
+    border:1px solid #4a3414;display:grid;place-items:center;box-shadow:inset 0 0 16px rgba(255,106,0,.3)}
+  .logo svg{width:25px;height:25px}
+  .brand h1{font-size:15.5px;margin:0;letter-spacing:.2px;white-space:nowrap}
+  .brand .sub{font-size:11px;color:var(--txt-faint);font-family:var(--mono);letter-spacing:.4px;margin-top:2px}
+  .brand .sub b{color:var(--orange)}
+  .searchwrap{flex:1 1 320px;position:relative;min-width:220px}
+  .searchwrap svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--txt-faint)}
+  #search{width:100%;padding:13px 14px 13px 42px;font-size:15px;background:var(--bg-2);border:1px solid var(--line-2);color:var(--txt);
+    border-radius:12px;outline:none;transition:border .15s,box-shadow .15s;font-family:var(--sans)}
+  #search::placeholder{color:var(--txt-faint)}
+  #search:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,106,0,.14)}
+  .kbd{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:11px;color:var(--txt-faint);border:1px solid var(--line-2);border-radius:6px;padding:2px 7px;pointer-events:none}
+
+  /* ---------- Tabs ---------- */
+  nav.tabs{max-width:1340px;margin:0 auto;padding:0 22px;display:flex;gap:4px;flex-wrap:wrap}
+  nav.tabs button{background:none;border:none;color:var(--txt-dim);padding:13px 16px;font-size:13.5px;cursor:pointer;font-family:var(--sans);
+    border-bottom:2px solid transparent;letter-spacing:.2px;display:flex;align-items:center;gap:8px;transition:.15s}
+  nav.tabs button:hover{color:var(--txt)}
+  nav.tabs button.active{color:var(--orange);border-bottom-color:var(--orange)}
+  nav.tabs button .ic{font-size:15px}
+
+  .view{display:none}
+  .view.active{display:block}
+  .wrap{max-width:1340px;margin:0 auto;padding:22px}
+
+  /* ---------- Registry layout ---------- */
+  .reglayout{display:grid;grid-template-columns:264px 1fr;gap:22px;align-items:start}
+  @media(max-width:940px){.reglayout{grid-template-columns:1fr}.filters{position:static!important}}
+  .filters{position:sticky;top:104px}
+  .panel{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:16px}
+  .panel h3{margin:0 0 12px;font-size:12px;letter-spacing:1.3px;text-transform:uppercase;color:var(--txt-dim);font-weight:600;display:flex;align-items:center;gap:8px}
+  .panel h3 .dot{width:6px;height:6px;border-radius:50%;background:var(--orange);box-shadow:0 0 8px var(--orange)}
+  .fgroup{margin-bottom:13px}.fgroup:last-child{margin-bottom:0}
+  .fgroup label{display:block;font-size:11px;color:var(--txt-faint);margin-bottom:5px;font-family:var(--mono);letter-spacing:.3px}
+  select{width:100%;padding:9px 10px;background:var(--bg-2);color:var(--txt);border:1px solid var(--line-2);border-radius:9px;font-size:13px;font-family:var(--sans);
+    appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3bd' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 10px center;padding-right:30px}
+  select:focus{outline:none;border-color:var(--orange)}
+  .btn-clear{width:100%;margin-top:4px;padding:9px;background:transparent;border:1px solid var(--line-2);color:var(--txt-dim);border-radius:9px;cursor:pointer;font-size:12px;font-family:var(--mono);letter-spacing:.4px;transition:.15s}
+  .btn-clear:hover{border-color:var(--red);color:var(--red)}
+  .readout{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .stat{background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:11px 12px}
+  .stat .n{font-size:22px;font-weight:700;font-family:var(--mono);line-height:1}
+  .stat .l{font-size:10px;color:var(--txt-faint);text-transform:uppercase;letter-spacing:.7px;margin-top:6px}
+  .stat.orange .n{color:var(--orange)} .stat.red .n{color:var(--red)} .stat.amber .n{color:var(--hazard)} .stat.green .n{color:var(--green)}
+  .bars{margin-top:6px}
+  .barrow{display:flex;align-items:center;gap:8px;margin-bottom:7px;font-size:11px}
+  .barrow .bl{width:60px;color:var(--txt-dim);font-family:var(--mono);font-size:10px;text-align:right;flex:0 0 auto}
+  .bartrack{flex:1;height:7px;background:var(--bg-2);border-radius:4px;overflow:hidden;border:1px solid var(--line)}
+  .barfill{height:100%;background:linear-gradient(90deg,var(--orange),var(--hazard));border-radius:4px}
+  .barrow .bn{width:24px;color:var(--txt-faint);font-family:var(--mono);font-size:10px;flex:0 0 auto}
+
+  .toolbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:16px;flex-wrap:wrap}
+  .count{font-size:13px;color:var(--txt-dim);font-family:var(--mono)}.count b{color:var(--orange)}
+  .sortwrap{display:flex;align-items:center;gap:8px}.sortwrap label{font-size:11px;color:var(--txt-faint);font-family:var(--mono)}
+  .sortwrap select{width:auto;min-width:160px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .chip{display:inline-flex;align-items:center;gap:7px;background:rgba(255,106,0,.1);border:1px solid var(--orange);color:var(--orange-2);padding:5px 11px;border-radius:20px;font-size:12px;font-family:var(--mono)}
+  .chip button{background:none;border:none;color:var(--orange-2);cursor:pointer;font-size:14px;line-height:1;padding:0}.chip button:hover{color:#fff}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
+  .card{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:var(--r);padding:18px;cursor:pointer;position:relative;overflow:hidden;transition:transform .14s,border-color .14s,box-shadow .14s}
+  .card:hover{transform:translateY(-3px);border-color:var(--line-2);box-shadow:var(--shadow)}
+  .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent,var(--orange))}
+  .card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
+  .card .flight{font-family:var(--mono);font-size:12px;color:var(--txt-faint);letter-spacing:.4px}
+  .card h4{margin:4px 0 0;font-size:16px;line-height:1.3}
+  .card .date{font-family:var(--mono);font-size:11px;color:var(--txt-faint);white-space:nowrap}
+  .card .ac{font-size:12.5px;color:var(--txt-dim);margin:8px 0 12px}.card .ac b{color:var(--txt)}
+  .badges{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+  .badge{font-size:10.5px;font-family:var(--mono);padding:3px 9px;border-radius:6px;letter-spacing:.3px;border:1px solid transparent}
+  .badge.cat{background:rgba(255,106,0,.1);color:var(--orange-2);border-color:rgba(255,106,0,.28)}
+  .badge.auth{background:rgba(187,140,255,.1);color:var(--violet);border-color:rgba(187,140,255,.25)}
+  .badge.region{background:rgba(148,163,189,.1);color:var(--txt-dim);border-color:var(--line-2)}
+  .st{font-family:var(--mono);font-size:10.5px;padding:3px 9px;border-radius:6px;letter-spacing:.4px}
+  .st.Final{background:rgba(54,226,154,.12);color:var(--green)}
+  .st.Ongoing,.st.Preliminary{background:rgba(255,207,46,.14);color:var(--hazard)}
+  .st.Unresolved{background:rgba(255,93,108,.14);color:var(--red)}
+  .card .casual{display:flex;gap:16px;border-top:1px solid var(--line);padding-top:12px}
+  .casual .c{display:flex;flex-direction:column}
+  .casual .cn{font-family:var(--mono);font-size:16px;font-weight:700}
+  .casual .cl{font-size:9.5px;color:var(--txt-faint);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+  .casual .fatal .cn{color:var(--red)} .casual .surv .cn{color:var(--green)}
+  .card .vidhint{position:absolute;top:14px;right:14px;font-size:10px;color:var(--txt-faint);opacity:0}
+  .empty{text-align:center;padding:80px 20px;color:var(--txt-faint)}
+  .empty svg{width:54px;height:54px;opacity:.4;margin-bottom:16px}
+
+  /* ---------- Drawer ---------- */
+  .overlay{position:fixed;inset:0;background:rgba(3,5,8,.7);backdrop-filter:blur(3px);z-index:60;opacity:0;pointer-events:none;transition:opacity .2s}
+  .overlay.open{opacity:1;pointer-events:auto}
+  .drawer{position:fixed;top:0;right:0;height:100vh;width:min(740px,95vw);z-index:61;background:linear-gradient(180deg,#0f1219,#0a0d12);border-left:1px solid var(--line-2);
+    box-shadow:-30px 0 70px rgba(0,0,0,.65);transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);overflow-y:auto}
+  .drawer.open{transform:translateX(0)}
+  .drawer .dhead{position:sticky;top:0;background:linear-gradient(180deg,#15110a,rgba(15,18,25,.92));backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:22px 26px;z-index:2}
+  .drawer .dhead::before{content:"";position:absolute;left:0;top:0;right:0;height:4px;background:repeating-linear-gradient(45deg,#16181c 0 12px,var(--hazard) 12px 24px);opacity:.7}
+  .drawer .dclose{position:absolute;top:20px;right:20px;width:34px;height:34px;border-radius:9px;background:var(--bg-2);border:1px solid var(--line-2);color:var(--txt-dim);cursor:pointer;font-size:18px;display:grid;place-items:center}
+  .drawer .dclose:hover{color:var(--red);border-color:var(--red)}
+  .drawer .dflight{font-family:var(--mono);font-size:12px;color:var(--orange-2);letter-spacing:.8px}
+  .drawer h2{margin:8px 0 6px;font-size:23px;line-height:1.25;padding-right:40px}
+  .drawer .dmeta{font-size:13px;color:var(--txt-dim);font-family:var(--mono)}
+  .dbody{padding:24px 26px 60px}
+  .keygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px}
+  .kv{background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:11px 13px}
+  .kv .k{font-size:10px;color:var(--txt-faint);text-transform:uppercase;letter-spacing:.6px;font-family:var(--mono)}
+  .kv .v{font-size:14px;margin-top:5px;font-weight:600}
+  .kv .v.red{color:var(--red)} .kv .v.green{color:var(--green)} .kv .v.amber{color:var(--hazard)}
+  .sec{margin-bottom:26px}
+  .sec h5{font-size:12px;letter-spacing:1.3px;text-transform:uppercase;color:var(--orange);margin:0 0 12px;display:flex;align-items:center;gap:9px;font-weight:600}
+  .sec h5::before{content:"";width:18px;height:2px;background:var(--orange);border-radius:2px}
+  .sec p{margin:0;line-height:1.65;color:#cfd8e6;font-size:14.5px}
+  .cause{background:linear-gradient(180deg,rgba(255,93,108,.08),transparent);border:1px solid rgba(255,93,108,.25);border-left:3px solid var(--red);border-radius:10px;padding:15px 17px}
+  .cause p{color:#f5d9dc}
+  ul.factors{list-style:none;padding:0;margin:0;display:grid;gap:9px}
+  ul.factors li{position:relative;padding:11px 14px 11px 40px;background:var(--bg-2);border:1px solid var(--line);border-radius:9px;font-size:13.5px;line-height:1.5;color:#cfd8e6}
+  ul.factors li::before{content:"";position:absolute;left:15px;top:16px;width:8px;height:8px;border-radius:2px;transform:rotate(45deg)}
+  li.human::before{background:var(--hazard)} li.technical::before{background:var(--cyan)}
+  li.organizational::before{background:var(--violet)} li.environmental::before{background:var(--green)}
+  .ftag{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--txt-faint);display:block;margin-bottom:3px}
+  ul.actions{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+  ul.actions li{position:relative;padding:10px 14px 10px 38px;background:linear-gradient(90deg,rgba(54,226,154,.06),transparent);border:1px solid rgba(54,226,154,.2);border-radius:9px;font-size:13.5px;line-height:1.5;color:#d5ecdf}
+  ul.actions li::before{content:"\2713";position:absolute;left:14px;top:10px;color:var(--green);font-weight:700}
+  .signif{background:linear-gradient(180deg,rgba(57,208,255,.06),transparent);border:1px solid rgba(57,208,255,.2);border-radius:10px;padding:15px 17px}
+  .signif p{color:#d0ecf6}
+  .takeaway{background:linear-gradient(180deg,rgba(255,207,46,.07),transparent);border:1px solid rgba(255,207,46,.25);border-radius:10px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start}
+  .takeaway .ti{font-size:20px;flex:0 0 auto}
+  .takeaway p{color:#f0e4c2}
+  .videos{display:grid;gap:10px}
+  .vidlink{display:flex;align-items:center;gap:12px;background:var(--bg-2);border:1px solid var(--line-2);border-radius:11px;padding:12px 14px;transition:.15s}
+  .vidlink:hover{border-color:var(--red);text-decoration:none;background:#16191f}
+  .vidlink .yt{width:38px;height:27px;border-radius:6px;background:var(--red);display:grid;place-items:center;flex:0 0 auto}
+  .vidlink .yt svg{width:16px;height:16px;color:#fff}
+  .vidlink .vt{font-size:13.5px;color:var(--txt);font-weight:600}
+  .vidlink .vs{font-size:11.5px;color:var(--txt-faint);margin-top:2px}
+  .vidlink .go{margin-left:auto;color:var(--txt-faint);font-size:18px}
+  .docnote{font-size:12.5px;color:var(--txt-dim);margin-top:4px;line-height:1.55;font-style:italic}
+  .tagrow{display:flex;gap:7px;flex-wrap:wrap;margin-top:6px}
+  .tag{font-family:var(--mono);font-size:11px;color:var(--orange-2);background:rgba(255,106,0,.08);border:1px solid var(--line-2);padding:4px 10px;border-radius:20px;cursor:pointer}
+  .tag:hover{background:rgba(255,106,0,.18)}
+  .reportbtn{display:inline-flex;align-items:center;gap:8px;background:rgba(57,208,255,.1);border:1px solid var(--cyan-dim);color:var(--cyan);padding:10px 16px;border-radius:10px;font-size:13px;font-family:var(--mono);margin-top:4px}
+  .reportbtn:hover{background:rgba(57,208,255,.2);text-decoration:none}
+
+  /* ---------- Education / Process view ---------- */
+  .lead{max-width:820px;margin:0 0 28px}
+  .lead h2{font-size:26px;margin:0 0 10px;letter-spacing:-.3px}
+  .lead p{color:var(--txt-dim);font-size:15px;line-height:1.7;margin:0}
+  .steps{display:grid;gap:14px;counter-reset:step}
+  .step{display:grid;grid-template-columns:54px 1fr;gap:16px;background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;position:relative}
+  .step .num{counter-increment:step;width:42px;height:42px;border-radius:11px;background:radial-gradient(circle at 30% 25%,#3a2a12,#160f06);border:1px solid #4a3414;display:grid;place-items:center;font-family:var(--mono);font-size:18px;font-weight:700;color:var(--orange)}
+  .step .num::before{content:counter(step,decimal-leading-zero)}
+  .step h4{margin:2px 0 6px;font-size:16px}
+  .step p{margin:0;color:var(--txt-dim);font-size:13.7px;line-height:1.6}
+  .step .ph{font-family:var(--mono);font-size:10.5px;color:var(--orange-2);text-transform:uppercase;letter-spacing:.6px}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:34px}
+  @media(max-width:780px){.twocol{grid-template-columns:1fr}}
+  .infocard{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:var(--r);padding:20px}
+  .infocard h3{margin:0 0 6px;font-size:17px}
+  .infocard>p{color:var(--txt-dim);font-size:13.6px;line-height:1.6;margin:0 0 14px}
+  .factorkey{display:grid;gap:10px}
+  .fk{display:flex;gap:12px;align-items:flex-start;background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:11px 13px}
+  .fk .sw{width:12px;height:12px;border-radius:3px;margin-top:3px;flex:0 0 auto;transform:rotate(45deg)}
+  .fk b{font-size:13.5px}.fk span{font-size:12.5px;color:var(--txt-dim);line-height:1.5;display:block;margin-top:2px}
+  .cheese{display:flex;flex-direction:column;gap:9px}
+  .layer{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--txt-dim)}
+  .layer .ll{width:120px;flex:0 0 auto;font-family:var(--mono);font-size:11px;color:var(--orange-2);text-transform:uppercase;letter-spacing:.4px}
+  .swiss{flex:1;height:24px;border-radius:6px;background:linear-gradient(90deg,#1a2230,#222d3f);border:1px solid var(--line-2);position:relative;overflow:hidden}
+  .swiss .hole{position:absolute;top:50%;transform:translateY(-50%);width:16px;height:16px;border-radius:50%;background:var(--bg)}
+  .legendgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:6px}
+  .lg{background:var(--bg-2);border:1px solid var(--line);border-left:3px solid var(--accent,var(--orange));border-radius:9px;padding:10px 12px}
+  .lg b{font-size:12.5px;display:block}.lg span{font-size:11px;color:var(--txt-faint);font-family:var(--mono)}
+
+  /* ---------- Glossary ---------- */
+  #glossFilter{width:100%;max-width:420px;padding:12px 14px;font-size:14px;background:var(--bg-2);border:1px solid var(--line-2);color:var(--txt);border-radius:11px;outline:none;margin-bottom:22px}
+  #glossFilter:focus{border-color:var(--orange)}
+  .glossgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  .gloss{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:12px;padding:15px 17px}
+  .gloss .term{font-weight:700;font-size:15px;color:var(--txt)}
+  .gloss .abbr{font-family:var(--mono);font-size:11px;color:var(--orange-2);margin-left:7px}
+  .gloss .def{font-size:13px;color:var(--txt-dim);line-height:1.6;margin-top:7px}
+
+  /* ---------- Watch & Learn ---------- */
+  .channels{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-top:8px}
+  .channel{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:12px;padding:18px;transition:.15s;display:block}
+  .channel:hover{border-color:var(--red);text-decoration:none;transform:translateY(-2px)}
+  .channel .ch-top{display:flex;align-items:center;gap:11px;margin-bottom:10px}
+  .channel .yt{width:40px;height:28px;border-radius:7px;background:var(--red);display:grid;place-items:center;flex:0 0 auto}
+  .channel .yt svg{width:18px;height:18px;color:#fff}
+  .channel .cn{font-size:15px;font-weight:700;color:var(--txt)}
+  .channel .cd{font-size:12.8px;color:var(--txt-dim);line-height:1.55}
+
+  .disc{background:rgba(255,207,46,.07);border:1px solid rgba(255,207,46,.22);border-radius:10px;padding:13px 16px;color:#ecd9a9;font-size:12.5px;margin-bottom:18px;line-height:1.6}
+  footer.app{max-width:1340px;margin:10px auto 0;padding:24px 22px 40px;border-top:1px solid var(--line);color:var(--txt-faint);font-size:12px;line-height:1.7}
+  footer.app b{color:var(--txt-dim)}
+  ::-webkit-scrollbar{width:11px;height:11px}::-webkit-scrollbar-track{background:var(--bg)}
+  ::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:6px;border:2px solid var(--bg)}
+  ::-webkit-scrollbar-thumb:hover{background:#33476f}
+</style>
+</head>
+<body>
+
+<div class="hazard"></div>
+<header class="app">
+  <div class="bar">
+    <div class="brand">
+      <div class="logo" title="Flight recorder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#ff8c3a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="7" width="18" height="11" rx="2"/><path d="M7 7V5h10v2"/><path d="M7 11h2M11 11h2M15 11h2M7 14h6"/>
+        </svg>
+      </div>
+      <div>
+        <h1>Aircraft Accident Investigation Registry</h1>
+        <div class="sub"><b>study &amp; reference</b> · ICAO Annex&nbsp;13 case archive · for students &amp; investigators</div>
+      </div>
+    </div>
+    <div class="searchwrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="search" type="text" placeholder="Search airline, aircraft, registration, location, cause, year…" autocomplete="off" />
+      <span class="kbd">/</span>
+    </div>
+  </div>
+  <nav class="tabs">
+    <button data-view="registry" class="active"><span class="ic">🗂️</span> Case Registry</button>
+    <button data-view="process"><span class="ic">🔬</span> How It's Investigated</button>
+    <button data-view="gloss"><span class="ic">📖</span> Glossary</button>
+    <button data-view="watch"><span class="ic">📺</span> Watch &amp; Learn</button>
+  </nav>
+</header>
+
+<!-- =================== REGISTRY =================== -->
+<section class="view active" id="view-registry">
+  <div class="wrap">
+    <div class="disc">
+      ⚠ <b>Reference archive for study &amp; situational awareness.</b> Figures are drawn from official accident reports (NTSB / BEA / AAIB / JTSB / TSB and other ICAO&nbsp;Annex&nbsp;13 authorities). For operational, legal or research use, always consult the primary final report. Cases marked <b>Ongoing / Preliminary</b> have no final probable cause yet — findings shown are provisional. These are real tragedies; the registry exists to help prevent the next one.
+    </div>
+    <div class="reglayout">
+      <aside class="filters">
+        <div class="panel">
+          <h3><span class="dot"></span>Filters</h3>
+          <div class="fgroup"><label>Aircraft manufacturer</label><select id="f-mfr"></select></div>
+          <div class="fgroup"><label>Region</label><select id="f-region"></select></div>
+          <div class="fgroup"><label>Occurrence category</label><select id="f-cat"></select></div>
+          <div class="fgroup"><label>Investigating authority</label><select id="f-auth"></select></div>
+          <div class="fgroup"><label>Phase of flight</label><select id="f-phase"></select></div>
+          <div class="fgroup"><label>Report status</label><select id="f-status"></select></div>
+          <div class="fgroup"><label>Decade</label><select id="f-decade"></select></div>
+          <button class="btn-clear" id="clearBtn">✕ RESET ALL FILTERS</button>
+        </div>
+        <div class="panel">
+          <h3><span class="dot"></span>Live readout</h3>
+          <div class="readout">
+            <div class="stat orange"><div class="n" id="s-cases">0</div><div class="l">Cases shown</div></div>
+            <div class="stat red"><div class="n" id="s-fatal">0</div><div class="l">Fatalities</div></div>
+            <div class="stat amber"><div class="n" id="s-open">0</div><div class="l">Open / unresolved</div></div>
+            <div class="stat green"><div class="n" id="s-surv">0</div><div class="l">Survivors</div></div>
+          </div>
+          <div class="bars" id="decadeBars" style="margin-top:14px"></div>
+        </div>
+      </aside>
+      <main>
+        <div class="toolbar">
+          <div class="count">Showing <b id="resCount">0</b> of <span id="totCount">0</span> investigations</div>
+          <div class="sortwrap">
+            <label for="sort">SORT</label>
+            <select id="sort">
+              <option value="recent">Most recent</option>
+              <option value="oldest">Oldest first</option>
+              <option value="deadliest">Most fatalities</option>
+              <option value="operator">Operator A→Z</option>
+            </select>
+          </div>
+        </div>
+        <div class="chips" id="activeChips"></div>
+        <div class="grid" id="grid"></div>
+      </main>
+    </div>
+  </div>
+</section>
+
+<!-- =================== PROCESS =================== -->
+<section class="view" id="view-process">
+  <div class="wrap">
+    <div class="lead">
+      <h2>How an air accident is investigated</h2>
+      <p>Modern investigations follow <b>ICAO Annex&nbsp;13</b>, the international standard. The sole objective is the <b>prevention of future accidents</b> — not to apportion blame or liability. The flow below shows how raw wreckage becomes a final report and, ultimately, safer skies.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="num"></div><div><div class="ph">Hours · State of Occurrence notified</div><h4>Notification &amp; team assembly</h4><p>The State where the accident happened opens the investigation and appoints an Investigator-in-Charge. Other States (of the operator, manufacturer, engine maker, and States that lost citizens) send <em>accredited representatives</em> and advisers.</p></div></div>
+      <div class="step"><div class="num"></div><div><div class="ph">Days · Field phase</div><h4>Site &amp; wreckage examination</h4><p>The crash site is documented and mapped; the wreckage is recovered, sometimes reassembled. Impact marks, fracture surfaces, fire patterns and component positions are read like a crime scene to reconstruct the final moments.</p></div></div>
+      <div class="step"><div class="num"></div><div><div class="ph">Days–weeks · The "black boxes"</div><h4>Recorder recovery &amp; readout</h4><p>The Cockpit Voice Recorder (CVR) and Flight Data Recorder (FDR) are located by their underwater locator beacons, downloaded in a lab, and time-synchronised. Hundreds of parameters and cockpit audio rebuild exactly what the aircraft and crew did.</p></div></div>
+      <div class="step"><div class="num"></div><div><div class="ph">Weeks–months · Factual phase</div><h4>Gathering the factual record</h4><p>Maintenance logs, ATC tapes, radar, weather (METAR/TAF), crew rosters and medical history, witness statements, manufacturer data and metallurgy/component testing are collected into the factual report.</p></div></div>
+      <div class="step"><div class="num"></div><div><div class="ph">Months · Analysis</div><h4>Analysis &amp; sequence of events</h4><p>Investigators build the chain of events and test hypotheses against the evidence, separating the <em>probable cause</em> from the <em>contributing factors</em> — the human, technical, organisational and environmental holes that lined up.</p></div></div>
+      <div class="step"><div class="num"></div><div><div class="ph">Draft → consultation</div><h4>Findings &amp; probable cause</h4><p>Conclusions are drafted and circulated to involved States and parties for comment. Findings state what happened and why, in evidence-based, non-punitive language.</p></div></div>
+      <div class="step"><div class="num"></div><div><div class="ph">Outcome</div><h4>Safety recommendations</h4><p>The most important product: actionable recommendations to regulators and industry — design changes, Airworthiness Directives (ADs), new procedures, training and rule-making to close the gaps that allowed the accident.</p></div></div>
+      <div class="step"><div class="num"></div><div><div class="ph">Public · Often 1–3 years later</div><h4>Final report &amp; follow-up</h4><p>The final report is published. Implementation of recommendations is tracked over years. Many of the safety features you fly with today exist because of a specific accident in this registry.</p></div></div>
+    </div>
+
+    <div class="twocol">
+      <div class="infocard">
+        <h3>The four factor families</h3>
+        <p>This registry tags every contributing factor into one of four families — a simple version of the models (SHELL, HFACS) investigators use to keep human and system causes in view.</p>
+        <div class="factorkey">
+          <div class="fk"><span class="sw" style="background:var(--hazard)"></span><div><b>Human factors</b><span>Crew actions, decisions, workload, fatigue, training, communication, situational awareness.</span></div></div>
+          <div class="fk"><span class="sw" style="background:var(--cyan)"></span><div><b>Technical / mechanical</b><span>Structure, systems, engines, sensors, software, design and manufacturing defects.</span></div></div>
+          <div class="fk"><span class="sw" style="background:var(--violet)"></span><div><b>Organisational / systemic</b><span>Airline culture, maintenance, oversight, certification, procedures, regulation.</span></div></div>
+          <div class="fk"><span class="sw" style="background:var(--green)"></span><div><b>Environmental / weather</b><span>Weather, icing, birds, terrain, runway condition, external hazards.</span></div></div>
+        </div>
+      </div>
+      <div class="infocard">
+        <h3>Why accidents are rarely one mistake</h3>
+        <p>James Reason's <b>"Swiss-cheese" model</b>: every layer of defence has holes. An accident happens only when the holes momentarily line up. Investigators look for <em>all</em> the layers, not a single scapegoat.</p>
+        <div class="cheese">
+          <div class="layer"><span class="ll">Regulation</span><span class="swiss"><span class="hole" style="left:30%"></span><span class="hole" style="left:70%"></span></span></div>
+          <div class="layer"><span class="ll">Organisation</span><span class="swiss"><span class="hole" style="left:48%"></span><span class="hole" style="left:80%"></span></span></div>
+          <div class="layer"><span class="ll">Supervision</span><span class="swiss"><span class="hole" style="left:50%"></span><span class="hole" style="left:18%"></span></span></div>
+          <div class="layer"><span class="ll">Preconditions</span><span class="swiss"><span class="hole" style="left:50%"></span><span class="hole" style="left:84%"></span></span></div>
+          <div class="layer"><span class="ll">Crew action</span><span class="swiss"><span class="hole" style="left:50%"></span><span class="hole" style="left:22%"></span></span></div>
+        </div>
+        <p style="margin-top:13px;color:var(--txt-faint);font-size:12px">When a hole opens in every layer at once (≈ centre), the hazard becomes an accident.</p>
+      </div>
+    </div>
+
+    <div class="infocard" style="margin-top:18px">
+      <h3>Occurrence categories in this registry</h3>
+      <p>Standardised ICAO/CICTT-style categories let investigators compare accidents and spot trends. The registry uses these:</p>
+      <div class="legendgrid" id="catLegend"></div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== GLOSSARY =================== -->
+<section class="view" id="view-gloss">
+  <div class="wrap">
+    <div class="lead"><h2>Glossary for investigators &amp; students</h2><p>Plain-language definitions of the abbreviations and concepts used across the case files. Type to filter.</p></div>
+    <input id="glossFilter" type="text" placeholder="Filter terms… e.g. CVR, CFIT, stall, RESA" autocomplete="off"/>
+    <div class="glossgrid" id="glossGrid"></div>
+  </div>
+</section>
+
+<!-- =================== WATCH & LEARN =================== -->
+<section class="view" id="view-watch">
+  <div class="wrap">
+    <div class="lead">
+      <h2>Watch &amp; learn</h2>
+      <p>Every case file has direct links to a <b>documentary reconstruction</b> and an <b>in-depth pilot/engineer analysis</b> on YouTube — open any case and scroll to <em>Watch &amp; learn</em>. Below are reputable channels and series to study the field more broadly.</p>
+    </div>
+    <div class="channels" id="channelGrid"></div>
+    <div class="disc" style="margin-top:24px">
+      ▶ Video links open a YouTube search for the most relevant, currently-available content (rather than a single ID that can disappear), so they keep working over time. Always cross-check video claims against the official final report linked in each case file.
+    </div>
+  </div>
+</section>
+
+<div class="overlay" id="overlay"></div>
+<div class="drawer" id="drawer"><div id="drawerContent"></div></div>
+
+<footer class="app">
+  <b>Aircraft Accident Investigation Registry</b> · 19 documented occurrences · 12 investigating authorities · 7 decades · built as a free, self-contained study resource.<br/>
+  Each case follows the ICAO&nbsp;Annex&nbsp;13 structure: factual information → analysis → conclusions (probable cause + contributing factors) → safety recommendations. Press <b>/</b> to search · open-source, educational, non-commercial.
+</footer>
+
+<script>
+/* ============================================================
+   CASE DATA — Annex-13 structured records
+   ============================================================ */
+const DATA = [
+  {
+    id:"jal123", flight:"Japan Air Lines 123", operator:"Japan Air Lines", date:"1985-08-12",
+    mfr:"Boeing", model:"747SR-46", reg:"JA8119", origin:"Tokyo Haneda (HND)", dest:"Osaka Itami (ITM)",
+    region:"Asia", country:"Japan", occupants:524, fatalities:520, survivors:4, ground:0,
+    phase:"Cruise", category:"Structural failure", authority:"JTSB (AAIC Japan)", status:"Final", reportYear:1987,
+    tags:["pressure bulkhead","faulty repair","hydraulics","deadliest single-aircraft"],
+    summary:"Twelve minutes after departure the aft pressure bulkhead ruptured, blowing off most of the vertical stabilizer and severing all four hydraulic systems. The crew fought for 32 minutes using engine thrust alone before striking Mount Takamagahara. It remains the deadliest single-aircraft accident in history.",
+    cause:"Explosive decompression caused by fatigue failure of the aft pressure bulkhead, which had been improperly repaired by Boeing after a 1978 tailstrike. A single row of rivets was used where two were required, roughly halving the joint's fatigue life.",
+    factors:{technical:["Defective bulkhead splice plate from the 1978 tailstrike repair","Total loss of all four hydraulic systems — no flight-control redundancy survived the tail separation"],organizational:["Repair not detected over 7 years and ~12,000 cycles of inspections","Crack-arrest design assumptions defeated by the faulty splice"]},
+    actions:["Boeing 747 aft pressure bulkhead repairs re-inspected fleet-wide","Stricter oversight and documentation of major structural repairs","Renewed focus on hydraulic system separation/redundancy in widebody design","Studies into engine-thrust-only controllability that informed later propulsion-controlled-aircraft research"],
+    significance:"Drove industry-wide reform of structural repair certification and inspection of repaired pressure vessels, and remains a benchmark case in crew resource management under catastrophic control loss.",
+    takeaway:"A repair signed off years earlier can be the cause — investigators must trace an aircraft's entire maintenance history, not just the final flight.",
+    report:"https://www.mlit.go.jp/jtsb/eng-air_report/JA8119.pdf"
+  },
+  {
+    id:"tenerife", flight:"KLM 4805 / Pan Am 1736", operator:"KLM · Pan Am", date:"1977-03-27",
+    mfr:"Boeing", model:"747-200 / 747-100", reg:"PH-BUF · N736PA", origin:"Tenerife Los Rodeos (TFN)", dest:"Las Palmas (LPA)",
+    region:"Europe", country:"Spain (Canary Is.)", occupants:644, fatalities:583, survivors:61, ground:0,
+    phase:"Takeoff", category:"Runway collision", authority:"CIAIAC (Spain)", status:"Final", reportYear:1978,
+    tags:["fog","communication","runway incursion","CRM"],
+    summary:"In dense fog on a congested diversion airfield, the KLM 747 began its takeoff roll without ATC clearance and collided with the Pan Am 747 still back-taxiing on the runway. With 583 deaths it is the deadliest accident in aviation history.",
+    cause:"The KLM captain initiated takeoff without takeoff clearance, under the mistaken belief he had been cleared. Ambiguous radio phraseology, simultaneous transmissions causing a heterodyne squeal, fog, and schedule pressure all converged.",
+    factors:{human:["KLM captain commenced roll without clearance","Non-standard phraseology ('we are now at takeoff') misread by both crews and tower","First officer's hesitation not assertively escalated"],environmental:["Dense fog reduced runway visibility below safe limits"],organizational:["Airport over-saturated with diverted widebodies after a bomb threat at Las Palmas","Simultaneous radio transmissions blocked critical messages"]},
+    actions:["Standardized ICAO phraseology — 'takeoff' used only with an actual clearance; 'departure' otherwise","Mandatory readback of clearances and the phrase 'cleared for takeoff'","Birth of modern Crew Resource Management (CRM) emphasizing cockpit assertiveness","Improved low-visibility ground movement and runway-incursion procedures"],
+    significance:"The founding case study of CRM and standardized radio communication — its lessons reshaped how every flight crew talks, challenges authority, and confirms clearances.",
+    takeaway:"Most accidents are communication failures as much as technical ones. A junior officer who speaks up — and is heard — breaks the chain.",
+    report:"https://reports.aviation-safety.net/1977/19770327-0_B742_PH-BUF.pdf"
+  },
+  {
+    id:"panam103", flight:"Pan Am 103 (Lockerbie)", operator:"Pan American World Airways", date:"1988-12-21",
+    mfr:"Boeing", model:"747-121", reg:"N739PA", origin:"London Heathrow (LHR)", dest:"New York JFK",
+    region:"Europe", country:"United Kingdom", occupants:259, fatalities:270, survivors:0, ground:11,
+    phase:"Cruise", category:"Sabotage / security", authority:"AAIB (UK)", status:"Final", reportYear:1990,
+    tags:["bomb","Semtex","baggage security","terrorism"],
+    summary:"A bomb concealed in checked baggage detonated at 31,000 ft over Lockerbie, Scotland, destroying the aircraft and killing all 259 aboard plus 11 on the ground.",
+    cause:"Detonation of an improvised explosive device (Semtex) hidden in a radio-cassette player inside checked luggage, which breached the forward fuselage and caused catastrophic structural disintegration.",
+    factors:{technical:["Explosive charge sited against the fuselage skin in the forward cargo hold","Rapid structural break-up from the blast and subsequent aerodynamic loads"],organizational:["Interline baggage transferred without passenger reconciliation","Security screening gaps for unaccompanied/interline bags"]},
+    actions:["Mandatory passenger–baggage reconciliation (no bag flies without its passenger)","100% screening of hold baggage and explosive-detection systems introduced","Hardened/blast-resistant baggage containers researched and trialled","Tighter international aviation-security regulation and intelligence sharing"],
+    significance:"Transformed civil aviation security worldwide and demonstrated the structural vulnerability of pressurized hulls to in-flight explosive breaches.",
+    takeaway:"Even a deliberate criminal act produces engineering lessons — here, how little explosive it takes to down a widebody, and how baggage security must work.",
+    report:"https://assets.publishing.service.gov.uk/media/5422fda8ed915d1374000c1d/2-1990_N739PA.pdf"
+  },
+  {
+    id:"ual232", flight:"United Airlines 232", operator:"United Airlines", date:"1989-07-19",
+    mfr:"McDonnell Douglas", model:"DC-10-10", reg:"N1819U", origin:"Denver Stapleton (DEN)", dest:"Chicago O'Hare (ORD)",
+    region:"North America", country:"United States", occupants:296, fatalities:111, survivors:185, ground:0,
+    phase:"Cruise", category:"Engine failure", authority:"NTSB (USA)", status:"Final", reportYear:1990,
+    tags:["uncontained failure","hydraulics","fan disk","CRM","Sioux City"],
+    summary:"The tail-mounted #2 engine suffered an uncontained fan-disk failure that shredded all three independent hydraulic systems, leaving the crew with no conventional flight controls. Using only differential engine thrust they reached Sioux City; the crash on landing was survived by 185 of 296 aboard.",
+    cause:"Fatigue crack originating from a metallurgical (hard-alpha) defect in the titanium fan disk, undetected during manufacture and inspection, leading to disk rupture and severance of all three hydraulic lines where they converged in the tail.",
+    factors:{technical:["Hard-alpha inclusion in the titanium fan disk forging","Crack not found by fluorescent penetrant inspection","Hydraulic lines for all 3 systems routed close together in the tail — single point of failure"],organizational:["Inspection process inadequate to detect the subsurface defect"]},
+    actions:["Enhanced ultrasonic inspection of titanium rotating parts and tighter melt-quality control","Review of hydraulic system routing and addition of fuses/check valves to preserve fluid after a breach","Differential-thrust handling lessons and propulsion-controlled-aircraft (PCA) research","Held up as the textbook example of CRM and improvised crew problem-solving"],
+    significance:"Showed both the deadly consequence of co-located 'redundant' systems and the lifesaving power of crew coordination — 185 survived an essentially uncontrollable aircraft.",
+    takeaway:"'Redundant' systems aren't redundant if they share a single physical location. And teamwork can salvage a situation the manuals never imagined.",
+    report:"https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR9006.pdf"
+  },
+  {
+    id:"twa800", flight:"TWA 800", operator:"Trans World Airlines", date:"1996-07-17",
+    mfr:"Boeing", model:"747-100", reg:"N93119", origin:"New York JFK", dest:"Paris CDG",
+    region:"North America", country:"United States", occupants:230, fatalities:230, survivors:0, ground:0,
+    phase:"Climb", category:"Fuel tank / electrical", authority:"NTSB (USA)", status:"Final", reportYear:2000,
+    tags:["center fuel tank","wiring","explosion","inerting"],
+    summary:"Twelve minutes after departure the aircraft exploded over the Atlantic off Long Island, killing all 230 aboard. After a four-year investigation the NTSB attributed the loss to a center wing fuel tank explosion.",
+    cause:"Explosion of the center wing fuel tank, which contained an ignitable fuel-air vapor. The most likely ignition source was a short circuit outside the tank that transferred excessive voltage into the fuel quantity indication system wiring inside the tank.",
+    factors:{technical:["Flammable vapor in a near-empty center tank heated by air-conditioning packs beneath it","Aging/chafed wiring allowing voltage transfer into the tank","Fuel-gauging wiring co-routed with higher-voltage wiring"]},
+    actions:["FAA rule requiring fuel-tank flammability reduction — nitrogen inerting systems on transport aircraft","Enhanced Airworthiness Program for aging aircraft wiring (EWIS standards)","Design changes to reduce ignition sources within fuel tanks","Reassessment of fuel-tank thermal environment near air-conditioning packs"],
+    significance:"Led directly to fuel-tank inerting and modern aircraft wiring (EWIS) regulation — one of the most consequential design-safety mandates in jet-age history.",
+    takeaway:"A four-year, debris-reassembly investigation defeated rampant conspiracy theories with physical evidence — and rewrote fuel-system design.",
+    report:"https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR0003.pdf"
+  },
+  {
+    id:"swr111", flight:"Swissair 111", operator:"Swissair", date:"1998-09-02",
+    mfr:"McDonnell Douglas", model:"MD-11", reg:"HB-IWF", origin:"New York JFK", dest:"Geneva (GVA)",
+    region:"North America", country:"Canada", occupants:229, fatalities:229, survivors:0, ground:0,
+    phase:"Cruise", category:"In-flight fire", authority:"TSB (Canada)", status:"Final", reportYear:2003,
+    tags:["arcing","IFE wiring","flammable insulation","smoke"],
+    summary:"A fire that began above the cockpit ceiling spread rapidly while the crew diverted toward Halifax. The aircraft lost systems and crashed into the Atlantic near Peggy's Cove, Nova Scotia, killing all 229.",
+    cause:"An electrical arc in wiring of the in-flight entertainment network ignited flammable metallized-Mylar (MPET) thermal-acoustic insulation blankets, producing a fast-spreading fire that the crew could neither locate nor control in time.",
+    factors:{technical:["Arc-tracking in IFE supplemental wiring","Flammable MPET insulation cover material that propagated flame","Fire above the ceiling, hidden from the crew"],organizational:["IFE system added without adequate integration into smoke/fire checklists","Checklists assumed a longer time budget than the fire allowed"]},
+    actions:["Worldwide removal of flammable metallized-Mylar insulation blankets","Tougher flammability standards for materials and wiring (arc-fault protection)","Revised in-flight smoke/fire checklists emphasizing immediate diversion and descent","Stricter certification of post-delivery system modifications such as IFE"],
+    significance:"Reformed cabin-material flammability standards and in-flight fire doctrine, embedding the principle that an uncontrollable fire demands an immediate landing.",
+    takeaway:"With smoke, time is the enemy: 'diagnose later, descend now.' A hidden fire can outpace any checklist written for a calmer scenario.",
+    report:"https://www.bst-tsb.gc.ca/eng/rapports-reports/aviation/1998/a98h0003/a98h0003.pdf"
+  },
+  {
+    id:"af4590", flight:"Air France 4590 (Concorde)", operator:"Air France", date:"2000-07-25",
+    mfr:"Aérospatiale / BAC", model:"Concorde", reg:"F-BTSC", origin:"Paris CDG", dest:"New York JFK",
+    region:"Europe", country:"France", occupants:109, fatalities:113, survivors:0, ground:4,
+    phase:"Takeoff", category:"Tyre / fuel fire", authority:"BEA (France)", status:"Final", reportYear:2002,
+    tags:["tyre burst","runway debris","fuel tank","fire"],
+    summary:"During takeoff a tyre burst after running over metal debris; flying rubber ruptured a fuel tank and ignited a massive fire. The Concorde lost thrust and crashed into a hotel in Gonesse, killing all 109 aboard and 4 on the ground.",
+    cause:"A tyre was cut by a titanium wear strip that had fallen from a Continental DC-10 that departed minutes earlier. A large tyre fragment struck the underside of the wing, the shock rupturing a full fuel tank; leaking fuel ignited and the resulting fire destroyed engine thrust and control.",
+    factors:{technical:["Foreign-object damage from debris on the runway","Tyre-fragment impact rupturing the wing fuel tank via hydrodynamic shock","Fire-induced loss of thrust on the left engines"],organizational:["Aircraft near max takeoff weight with an aft CG and a tailwind","Known Concorde tyre-vulnerability history not fully mitigated"]},
+    actions:["Kevlar self-sealing liners installed in Concorde fuel tanks","Burst-resistant tyres and reinforced electrical protection fitted","Stricter runway FOD (foreign-object debris) inspection regimes","Concorde ultimately retired from service in 2003"],
+    significance:"Ended the supersonic passenger era and underscored how runway FOD and fuel-tank vulnerability can cascade into catastrophe within seconds of rotation.",
+    takeaway:"A single piece of debris from another aircraft started the chain. Airport FOD control is flight safety, not housekeeping.",
+    report:"https://bea.aero/docspa/2000/f-sc000725a/pdf/f-sc000725a.pdf"
+  },
+  {
+    id:"helios522", flight:"Helios Airways 522", operator:"Helios Airways", date:"2005-08-14",
+    mfr:"Boeing", model:"737-300", reg:"5B-DBY", origin:"Larnaca (LCA)", dest:"Athens (ATH) via Prague",
+    region:"Europe", country:"Greece", occupants:121, fatalities:121, survivors:0, ground:0,
+    phase:"Climb", category:"Pressurization / hypoxia", authority:"AAIASB (Greece)", status:"Final", reportYear:2006,
+    tags:["pressurization","hypoxia","ghost flight","checklist","human factors"],
+    summary:"A pressurization control left in MANUAL after maintenance meant the cabin never pressurized. The crew, mistaking the warning horn and succumbing to hypoxia, were incapacitated. The 'ghost flight' continued on autopilot until fuel exhaustion, crashing near Athens; all 121 died.",
+    cause:"The cabin pressurization mode selector was left in MANUAL after a pre-flight maintenance check and not detected on the pre-flight checklists. The cabin altitude warning horn (identical to the takeoff configuration horn) was misinterpreted, and progressive hypoxia incapacitated the crew before they applied oxygen.",
+    factors:{human:["Pressurization selector not verified to AUTO on multiple checklists","Cabin-altitude warning horn misidentified as a takeoff config warning","Crew failed to recognize hypoxia onset and don oxygen in time"],technical:["A single aural horn used for two different warnings (ambiguous alerting)"],organizational:["Maintenance left the selector in MANUAL without restoring/flagging it","Training gaps on pressurization malfunctions and hypoxia recognition"]},
+    actions:["Boeing introduced a distinct cabin-altitude warning light to disambiguate the horn","Revised checklists explicitly confirming pressurization mode","Enhanced hypoxia-awareness and pressurization-failure training","Maintenance procedures requiring switch positions be restored and verified"],
+    significance:"A defining human-factors case showing how ambiguous alerting plus a missed checklist item can chain into total crew incapacitation — central to modern alerting-design philosophy.",
+    takeaway:"Hypoxia steals judgment silently. An alert that means two different things is a design flaw waiting to be exploited by a bad day.",
+    report:"https://www.aaiasb.gr/images/stories/reports/2006/11_2006_en.pdf"
+  },
+  {
+    id:"af447", flight:"Air France 447", operator:"Air France", date:"2009-06-01",
+    mfr:"Airbus", model:"A330-203", reg:"F-GZCP", origin:"Rio de Janeiro (GIG)", dest:"Paris CDG",
+    region:"Oceanic (Atlantic)", country:"France / Brazil", occupants:228, fatalities:228, survivors:0, ground:0,
+    phase:"Cruise", category:"Loss of control (LOC-I)", authority:"BEA (France)", status:"Final", reportYear:2012,
+    tags:["pitot icing","unreliable airspeed","stall","automation","human factors"],
+    summary:"Cruising over the equatorial Atlantic at night, the pitot tubes iced over, giving unreliable airspeed and disconnecting the autopilot. The crew's responses pitched the aircraft into a deep aerodynamic stall it never recovered from before impacting the ocean. All 228 died.",
+    cause:"Temporary loss of airspeed indications from ice crystal obstruction of the pitot probes, followed by inappropriate flight-control inputs (sustained nose-up) that stalled the aircraft, combined with the crew's failure to recognize and recover from the stall.",
+    factors:{technical:["Pitot probes (Thales AA) susceptible to high-altitude ice-crystal blockage","Autopilot/autothrust disconnect into degraded ('alternate') control law","Stall warning logic that ceased below very low indicated airspeeds, confusing the crew"],human:["Sustained nose-up input driving the aircraft deeper into the stall","Startle and loss of situational awareness at night with no external references","Ineffective crew coordination and cross-checking of pitch/AoA"],organizational:["Training had not adequately covered manual high-altitude flying and full stall recovery"]},
+    actions:["Mandatory replacement of susceptible pitot probes with an improved standard","Sweeping changes to upset-prevention and full stall-recovery training","Greater emphasis on angle-of-attack awareness and manual high-altitude handling","Recommendations on deployable/streaming flight recorders and underwater locator beacon endurance"],
+    significance:"The landmark modern case on automation dependency, startle effect and stall recovery — it rewrote pilot training worldwide around manual handling and AoA awareness.",
+    takeaway:"When automation quits, basic airmanship must take over instantly. A stall is recovered by lowering the nose — even when every instinct says pull up.",
+    report:"https://bea.aero/docspa/2009/f-cp090601.en/pdf/f-cp090601.en.pdf"
+  },
+  {
+    id:"ual1549", flight:"US Airways 1549 (Hudson)", operator:"US Airways", date:"2009-01-15",
+    mfr:"Airbus", model:"A320-214", reg:"N106US", origin:"New York LaGuardia (LGA)", dest:"Charlotte (CLT)",
+    region:"North America", country:"United States", occupants:155, fatalities:0, survivors:155, ground:0,
+    phase:"Climb", category:"Bird strike", authority:"NTSB (USA)", status:"Final", reportYear:2010,
+    tags:["bird strike","dual engine failure","ditching","Sullenberger"],
+    summary:"Ninety seconds after takeoff the A320 struck a flock of Canada geese, losing thrust on both engines. With no airport reachable, the crew ditched in the Hudson River. All 155 aboard survived — the 'Miracle on the Hudson'.",
+    cause:"Ingestion of large birds (Canada geese) into both engines causing an almost total and irreversible loss of thrust, followed by a successful forced water landing.",
+    factors:{environmental:["Flock of large Canada geese at low altitude near a dense urban airspace"],technical:["Both CFM56 engines damaged beyond usable thrust by multiple bird ingestions"],human:["Outstanding crew decision-making — correct ditching choice and execution under ~3.5 minutes of time"]},
+    actions:["Review of engine bird-ingestion certification standards for larger birds","Improved dual-engine-failure and ditching checklists (including low-altitude scenarios)","Wildlife-hazard management programs strengthened at and around airports","Validated A320 ditching behavior and cabin evacuation/flotation provisions"],
+    significance:"The definitive demonstration that disciplined CRM, energy management and quick decision-making can turn a dual-engine loss at low altitude into a zero-fatality outcome.",
+    takeaway:"Investigations document the saves too. Quick, correct decisions — and a calm cabin crew — are why everyone walked away.",
+    report:"https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR1003.pdf"
+  },
+  {
+    id:"colgan3407", flight:"Colgan Air 3407", operator:"Colgan Air (Continental Connection)", date:"2009-02-12",
+    mfr:"Bombardier", model:"Dash 8 Q400", reg:"N200WQ", origin:"Newark (EWR)", dest:"Buffalo (BUF)",
+    region:"North America", country:"United States", occupants:49, fatalities:50, survivors:0, ground:1,
+    phase:"Approach", category:"Aerodynamic stall", authority:"NTSB (USA)", status:"Final", reportYear:2010,
+    tags:["stall","pilot fatigue","training","1500-hour rule","icing perception"],
+    summary:"On approach to Buffalo in icing conditions the aircraft slowed, the stall-protection stick-shaker activated, and the captain responded by pulling back — aggravating the stall. The aircraft crashed into a house; all 49 aboard and 1 person on the ground died.",
+    cause:"The captain's inappropriate response to the stall warning — pulling aft on the control column instead of lowering the nose — which induced an aerodynamic stall from which recovery was not achieved.",
+    factors:{human:["Improper stall-recovery input (aft pressure against the stick-shaker/pusher)","Probable fatigue — both pilots had commuted overnight and slept poorly","Sterile-cockpit discipline broken with non-pertinent conversation during approach"],organizational:["Weaknesses in the airline's training, leadership culture and fatigue management","Crew misperception of icing severity and airspeed management"]},
+    actions:["U.S. 'first-officer qualification' rule — Airline Transport Pilot certificate / 1,500 hours minimum","New FAA flight-and-duty / rest rules (FAR Part 117) to combat fatigue","Mandatory stall-recovery and stick-pusher training emphasizing nose-down recovery","Stronger remedial-training tracking and professionalism standards at regionals"],
+    significance:"The most regulation-changing U.S. accident of its era — it produced the 1,500-hour rule, modern fatigue rules and overhauled stall training for the entire industry.",
+    takeaway:"Fatigue and weak training are 'organisational' causes hiding behind a 'pilot error' headline. Fixing the system saved more lives than blaming one crew.",
+    report:"https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR1001.pdf"
+  },
+  {
+    id:"asiana214", flight:"Asiana Airlines 214", operator:"Asiana Airlines", date:"2013-07-06",
+    mfr:"Boeing", model:"777-200ER", reg:"HL7742", origin:"Seoul Incheon (ICN)", dest:"San Francisco (SFO)",
+    region:"North America", country:"United States", occupants:307, fatalities:3, survivors:304, ground:0,
+    phase:"Landing", category:"Approach / automation", authority:"NTSB (USA)", status:"Final", reportYear:2014,
+    tags:["unstable approach","autothrottle","automation complacency","CRM"],
+    summary:"On a visual approach to SFO the crew allowed the aircraft to descend below the glidepath and decelerate well below target speed. It struck the seawall short of the runway; 3 of 307 aboard died and the aircraft burned after coming to rest.",
+    cause:"Mismanagement of the airplane's descent and airspeed during a visual approach, including the crew's misunderstanding of the autothrottle/autopilot mode behavior, which let the airspeed decay far below target without timely correction or go-around.",
+    factors:{human:["Crew over-reliance on automation and incomplete monitoring of airspeed","Late recognition of the low/slow condition; go-around initiated too late","Captain's limited experience hand-flying the 777 and as a training captain"],technical:["Complex, non-intuitive autothrottle 'wake-up' logic that did not maintain speed in the selected mode"],organizational:["Airline automation-management training and policies emphasizing automation over manual proficiency"]},
+    actions:["Boeing documentation and training clarifying autothrottle behavior and mode awareness","Reinforced manual-flying proficiency and 'monitor airspeed' approach discipline","Strengthened crew-coordination and go-around decision policies","Evacuation-management lessons (slide deployment, post-crash communication)"],
+    significance:"A signature 'automation complacency' accident, accelerating industry guidance to preserve manual-flying skills and improve mode awareness on highly automated jets.",
+    takeaway:"Knowing what the automation is doing — and what it is NOT doing — is a core skill. 'Why is it doing that?' is a question that must trigger action.",
+    report:"https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR1401.pdf"
+  },
+  {
+    id:"mh370", flight:"Malaysia Airlines 370", operator:"Malaysia Airlines", date:"2014-03-08",
+    mfr:"Boeing", model:"777-200ER", reg:"9M-MRO", origin:"Kuala Lumpur (KUL)", dest:"Beijing (PEK)",
+    region:"Oceanic (Indian Ocean)", country:"Malaysia", occupants:239, fatalities:239, survivors:0, ground:0,
+    phase:"Cruise", category:"Disappearance (unresolved)", authority:"ICAO Annex 13 team (Malaysia)", status:"Unresolved", reportYear:2018,
+    tags:["missing aircraft","tracking","satellite handshakes","unresolved"],
+    summary:"Less than an hour after departure the aircraft's transponder ceased, it turned back across the Malay Peninsula and flew for hours before its presumed end in the southern Indian Ocean. Despite the largest search in aviation history the main wreckage has never been found and the cause remains undetermined.",
+    cause:"Undetermined. The investigation could not establish the reason for the diversion and loss of communication. It could not exclude unlawful interference but found no conclusive evidence; the aircraft is presumed lost in the southern Indian Ocean based on satellite (Inmarsat) 'handshake' analysis.",
+    factors:{technical:["Loss of secondary surveillance (transponder/ACARS) leaving only sparse satellite pings","No real-time position reporting over remote oceanic airspace"],organizational:["Air-traffic handoff and alerting delays after contact was lost","Limitations of contemporary aircraft-tracking infrastructure"]},
+    actions:["ICAO Global Aeronautical Distress and Safety System (GADSS) framework","15-minute aircraft position-reporting standard over oceanic/remote areas","Extended underwater-locator-beacon battery life (to 90 days) and a low-frequency beacon","Move toward autonomous distress tracking that cannot be easily disabled"],
+    significance:"The catalyst for global flight-tracking reform — it proved that an airliner could vanish in the modern era and forced GADSS and continuous-tracking mandates.",
+    takeaway:"Even without wreckage, mathematics (satellite ping timing) can narrow a search to an ocean. Some investigations drive change while still unsolved.",
+    report:"https://reports.aviation-safety.net/2014/20140308-0_B772_9M-MRO.pdf"
+  },
+  {
+    id:"germanwings", flight:"Germanwings 9525", operator:"Germanwings (Lufthansa group)", date:"2015-03-24",
+    mfr:"Airbus", model:"A320-211", reg:"D-AIPX", origin:"Barcelona (BCN)", dest:"Düsseldorf (DUS)",
+    region:"Europe", country:"France", occupants:150, fatalities:150, survivors:0, ground:0,
+    phase:"Cruise", category:"Deliberate act / human factors", authority:"BEA (France)", status:"Final", reportYear:2016,
+    tags:["pilot mental health","cockpit door","two-person rule","intentional"],
+    summary:"While the captain was out of the cockpit, the first officer locked the door, set the autopilot to descend and intentionally flew the aircraft into the French Alps, killing all 150 aboard.",
+    cause:"Deliberate and intentional action by the first officer, who had a history of a psychiatric condition and suicidal ideation that, under medical-confidentiality rules, had not been reported to the airline or aviation authority. He exploited the reinforced cockpit-door logic to lock out the captain.",
+    factors:{human:["First officer's undisclosed mental-health condition and intent","Reinforced cockpit door (a post-9/11 security feature) used to bar re-entry"],organizational:["Medical-confidentiality and reporting rules that prevented the risk reaching the operator","Aeromedical oversight gaps in detecting and acting on the condition"]},
+    actions:["Many operators adopted a 'two-persons-in-the-cockpit' rule","Reviews balancing medical confidentiality against aviation safety reporting","Strengthened pilot mental-health support, screening and peer-support programs","Re-examination of cockpit-door lockout logic and override provisions"],
+    significance:"Forced aviation to confront pilot mental health and the tension between cockpit security and crew accountability, reshaping medical-reporting and cockpit-access policy.",
+    takeaway:"A safety fix for one threat (hijacking) created another (lockout). Defences must be reviewed as whole systems, including human wellbeing.",
+    report:"https://bea.aero/uploads/tx_elydbrapports/BEA2015-0125.en-LR.pdf"
+  },
+  {
+    id:"lionair610", flight:"Lion Air 610", operator:"Lion Air", date:"2018-10-29",
+    mfr:"Boeing", model:"737 MAX 8", reg:"PK-LQP", origin:"Jakarta (CGK)", dest:"Pangkal Pinang (PGK)",
+    region:"Asia", country:"Indonesia", occupants:189, fatalities:189, survivors:0, ground:0,
+    phase:"Climb", category:"Design / flight-control (MCAS)", authority:"KNKT (Indonesia)", status:"Final", reportYear:2019,
+    tags:["MCAS","AoA sensor","737 MAX","automation","certification"],
+    summary:"Shortly after takeoff a faulty angle-of-attack sensor triggered the new MCAS flight-control system to repeatedly push the nose down. The crew fought more than 20 nose-down commands before losing control and crashing into the Java Sea; all 189 died.",
+    cause:"A single faulty (miscalibrated) angle-of-attack sensor fed erroneous data to the Maneuvering Characteristics Augmentation System (MCAS), which commanded repeated automatic nose-down stabilizer trim. The system relied on one sensor, was not described to crews, and overpowered the pilots' inputs.",
+    factors:{technical:["MCAS designed to act on a single AoA input with no cross-check or redundancy","No effective limit on repeated MCAS activations","Faulty AoA sensor installed/calibrated incorrectly during prior maintenance"],organizational:["MCAS omitted from flight manuals and pilot differences training","Certification process that under-assessed MCAS authority and failure effects","Prior flight's similar event not effectively flagged/rectified"]},
+    actions:["First of the two accidents that led to the worldwide 737 MAX grounding (with Ethiopian 302)","MCAS redesigned to use both AoA sensors, with limited authority and a single activation","Mandatory MCAS disclosure and pilot training before return to service","FAA certification reforms and independent review of delegated authority"],
+    significance:"Together with Ethiopian 302, exposed deep flaws in automation design, single-sensor dependence and aircraft certification — triggering a 20-month grounding and regulatory overhaul.",
+    takeaway:"A system pilots were never told about, trusting one sensor, fought them to the ground. Transparency and redundancy are not optional.",
+    report:"https://reports.aviation-safety.net/2018/20181029-0_B38M_PK-LQP_Final.pdf"
+  },
+  {
+    id:"et302", flight:"Ethiopian Airlines 302", operator:"Ethiopian Airlines", date:"2019-03-10",
+    mfr:"Boeing", model:"737 MAX 8", reg:"ET-AVJ", origin:"Addis Ababa (ADD)", dest:"Nairobi (NBO)",
+    region:"Africa", country:"Ethiopia", occupants:157, fatalities:157, survivors:0, ground:0,
+    phase:"Climb", category:"Design / flight-control (MCAS)", authority:"EAIB (Ethiopia)", status:"Final", reportYear:2022,
+    tags:["MCAS","AoA sensor","737 MAX","grounding","certification"],
+    summary:"Minutes after takeoff a damaged AoA sensor again triggered MCAS into repeated nose-down trim. Despite the crew following the emergency procedure, aerodynamic loads made manual trim impossible at high speed and the aircraft dived into terrain; all 157 died. The accident grounded the 737 MAX worldwide.",
+    cause:"Erroneous angle-of-attack data (the sensor vane was likely lost to a bird strike) activated MCAS, driving repeated automatic nose-down stabilizer trim. The runaway-stabilizer procedure left the stabilizer mistrimmed at high airspeed where aerodynamic forces prevented manual trim recovery.",
+    factors:{technical:["Same single-sensor MCAS architecture as Lion Air 610","High airspeed made manual stabilizer trim physically unworkable after MCAS mistrim","AoA vane failure (consistent with bird strike) producing false high-AoA signal"],organizational:["Return-to-service / fix not yet implemented after the Lion Air accident","Crew-procedure assumptions about manual-trim feasibility not valid at high speed"]},
+    actions:["Worldwide grounding of the entire 737 MAX fleet (March 2019 – late 2020)","MCAS redesign: dual-AoA input, single non-repeating activation, crew can override","Updated procedures recognizing high-speed manual-trim limitations","Legislative and certification reform (e.g. U.S. Aircraft Certification, Safety, and Accountability Act)"],
+    significance:"The second MCAS accident — it grounded a flagship aircraft type globally for ~20 months and became the defining modern case on automation authority and certification oversight.",
+    takeaway:"When a second, near-identical accident follows the first, the system failed to learn. Grounding a flagship jet was the price of that lesson.",
+    report:"https://reports.aviation-safety.net/2019/20190310-0_B38M_ET-AVJ_Final.pdf"
+  },
+  {
+    id:"aie812", flight:"Air India Express 812", operator:"Air India Express", date:"2010-05-22",
+    mfr:"Boeing", model:"737-800", reg:"VT-AXV", origin:"Dubai (DXB)", dest:"Mangalore (IXE)",
+    region:"Asia", country:"India", occupants:166, fatalities:158, survivors:8, ground:0,
+    phase:"Landing", category:"Runway excursion", authority:"AAIB / Court of Inquiry (India)", status:"Final", reportYear:2010,
+    tags:["unstable approach","tabletop runway","go-around","fatigue"],
+    summary:"After a steep, unstabilized approach the aircraft touched down far beyond the threshold of Mangalore's tabletop runway, overran the end, fell down the hillside and broke up in fire. 158 of 166 aboard died; 8 survived.",
+    cause:"The captain's failure to discontinue an unstabilized approach and execute a go-around despite multiple warnings, leading to a long landing and overrun off a tabletop runway. Probable sleep inertia after a long rest period impaired his judgment.",
+    factors:{human:["Continuation of a clearly unstabilized approach (too high, too fast, too late touchdown)","Captain's probable sleep inertia degrading decision-making","First officer's go-around calls not heeded"],organizational:["Tabletop runway with limited overrun area and terrain drop-off","Cockpit authority gradient discouraging the first officer's intervention"]},
+    actions:["Reinforced stabilized-approach criteria and mandatory go-around policies in Indian operations","Scrutiny of tabletop-runway operations, RESA/EMAS and runway-end safety areas","Crew fatigue / rest-management and CRM authority-gradient training emphasis","Improved monitoring of approach stability and go-around compliance"],
+    significance:"India's defining go-around / tabletop-runway case — central to South Asian discussion of unstabilized-approach discipline and runway-end safety areas.",
+    takeaway:"A go-around is free; an overrun is not. The hardest, most important decision in aviation is choosing to discard a bad approach and try again.",
+    report:"https://reports.aviation-safety.net/2010/20100522-0_B738_VT-AXV.pdf"
+  },
+  {
+    id:"jeju2216", flight:"Jeju Air 2216", operator:"Jeju Air", date:"2024-12-29",
+    mfr:"Boeing", model:"737-800", reg:"HL8088", origin:"Bangkok (BKK)", dest:"Muan (MWX)",
+    region:"Asia", country:"South Korea", occupants:181, fatalities:179, survivors:2, ground:0,
+    phase:"Landing", category:"Bird strike / infrastructure", authority:"ARAIB (Korea)", status:"Ongoing", reportYear:0,
+    tags:["bird strike","belly landing","localizer berm","RESA","preliminary"],
+    summary:"After reporting a bird strike on approach, the crew went around and made a gear-up belly landing on the opposite runway. The aircraft overran and struck a concrete embankment housing the localizer antenna, killing 179 of 181; only two cabin crew in the tail survived. The investigation is ongoing.",
+    cause:"Under investigation. A bird strike (confirmed feathers/blood in both engines) preceded a rapid sequence ending in a gear-up landing. The high fatality count is strongly associated with impact against a rigid concrete localizer-antenna berm beyond the runway end — a focus of the ongoing inquiry.",
+    factors:{environmental:["Bird strike to one or both engines during the approach/go-around"],technical:["Landing gear not extended for the second landing attempt (sequence under investigation)","Engine/system effects of the bird ingestion being analyzed"],organizational:["Rigid concrete structure (localizer berm) sited close to the runway end instead of frangible mounting / adequate RESA"]},
+    actions:["Preliminary report issued; final report pending (cause not yet determined)","Korean review of localizer/antenna berm frangibility and runway-end safety areas at airports","Re-examination of bird-hazard management at the aerodrome","International cooperation with NTSB, Boeing and CFM in the investigation"],
+    significance:"The deadliest aviation accident on South Korean soil, putting global focus on rigid airport structures near runways and frangibility/RESA standards. Findings remain provisional.",
+    takeaway:"What an aircraft hits after leaving the runway can matter more than the initial fault. Airport infrastructure design is a survivability issue.",
+    report:"https://www.araib.go.kr/"
+  },
+  {
+    id:"ai171", flight:"Air India 171", operator:"Air India", date:"2025-06-12",
+    mfr:"Boeing", model:"787-8 Dreamliner", reg:"VT-ANB", origin:"Ahmedabad (AMD)", dest:"London Gatwick (LGW)",
+    region:"Asia", country:"India", occupants:242, fatalities:241, survivors:1, ground:19,
+    phase:"Takeoff", category:"Loss of power on takeoff", authority:"AAIB India (w/ NTSB, UK AAIB)", status:"Ongoing", reportYear:0,
+    tags:["787","initial climb","fuel control switches","preliminary","first 787 hull loss"],
+    summary:"Seconds after rotation the widebody lost the ability to climb and descended into a building (a medical-college hostel) near the airport. 241 of 242 aboard and around 19 people on the ground were killed; a single passenger survived. It is the first fatal hull loss of a Boeing 787. The investigation is ongoing.",
+    cause:"Under investigation — no probable cause has been determined. The AAIB India preliminary report noted that both engine fuel-control switches transitioned from RUN to CUTOFF shortly after liftoff (then back to RUN), with loss of thrust during the initial climb. The mechanism and reason are the central focus of the continuing inquiry; nothing here should be read as a final finding.",
+    factors:{technical:["Loss of engine thrust during the critical initial-climb phase (under analysis)","Preliminary data on fuel-control-switch transitions being investigated"],organizational:["Investigation examining systems, maintenance history and human-factors aspects"],environmental:["High ambient temperature / density-altitude effects being assessed among other factors"]},
+    actions:["AAIB India preliminary report released; final report and probable cause pending","International team: NTSB (USA), UK AAIB, Boeing and GE Aerospace participating","Advisory review of fuel-control-switch locking features across the 787/737 fleet","Findings strictly provisional — operational changes await the final report"],
+    significance:"The first fatal loss of a Boeing 787 and the deadliest aviation accident involving India in decades; a high-profile open investigation with intense focus on the initial-climb thrust loss. All findings remain preliminary.",
+    takeaway:"Treat early reports with discipline: a preliminary fact is not a probable cause. Sound investigation resists the rush to a conclusion.",
+    report:"https://aaib.gov.in/"
+  }
+];
+
+/* ---- Documentary notes for well-known cases ---- */
+const DOCNOTES={
+  tenerife:"Extensively covered by 'Mayday / Air Crash Investigation' and numerous CRM training films.",
+  jal123:"Subject of multiple documentaries on the repair failure and the 32-minute struggle for control.",
+  ual232:"The Sioux City landing is a famous CRM case study with training reconstructions and the captain's own talks.",
+  af447:"In-depth analyses by Mentour Pilot and others reconstruct the cockpit sequence minute by minute.",
+  ual1549:"The 'Miracle on the Hudson' — dramatised in the film 'Sully' and covered in detail by aviation channels.",
+  helios522:"A staple human-factors documentary on the 'ghost flight' and hypoxia.",
+  lionair610:"Covered alongside Ethiopian 302 in major MCAS investigations and the documentary 'Downfall'.",
+  et302:"Central to MCAS coverage and the Netflix documentary 'Downfall: The Case Against Boeing'.",
+  mh370:"The subject of many documentaries; treat speculative content critically against the official report.",
+  germanwings:"Sensitive subject — prefer factual, report-based analyses over dramatisations."
+};
+
+/* ---- Glossary ---- */
+const GLOSSARY=[
+  ["Annex 13","ICAO","The international standard governing aircraft accident & incident investigation. Its stated purpose is prevention, not blame."],
+  ["CVR","Cockpit Voice Recorder","Records cockpit audio (crew voices, alerts, ambient sound). One of the two 'black boxes' — actually bright orange."],
+  ["FDR","Flight Data Recorder","Records hundreds of flight parameters (speed, altitude, control inputs, engine data) for readout after an accident."],
+  ["ULB","Underwater Locator Beacon","A 'pinger' on the recorders that activates in water to help locate wreckage; battery life extended to 90 days post-MH370."],
+  ["Probable cause","—","The investigating authority's primary finding of why the accident happened, distinct from contributing factors."],
+  ["Contributing factor","—","A condition that helped cause the accident but wasn't the single primary cause — human, technical, organisational or environmental."],
+  ["CFIT","Controlled Flight Into Terrain","An airworthy aircraft, under control, is unintentionally flown into ground, water or an obstacle."],
+  ["LOC-I","Loss of Control – In flight","The aircraft departs controlled flight (e.g. a stall or upset) — a leading cause of fatal accidents."],
+  ["Stall","Aerodynamic stall","Loss of lift when the wing exceeds its critical angle of attack. Recovered by reducing angle of attack (nose down), not adding power alone."],
+  ["AoA","Angle of Attack","The angle between the wing and the oncoming air. A faulty AoA sensor was central to the 737 MAX accidents."],
+  ["MCAS","Maneuvering Characteristics Augmentation System","A 737 MAX flight-control function that trimmed the nose down; single-sensor reliance contributed to two crashes."],
+  ["CRM","Crew Resource Management","Training in communication, leadership and decision-making so crews work as a team — born largely from Tenerife and United 232."],
+  ["Sterile cockpit","—","A rule banning non-essential conversation below 10,000 ft to reduce distraction during critical phases."],
+  ["Go-around","Missed approach","Aborting a landing to climb away and try again — a safe, expected manoeuvre when an approach is unstable."],
+  ["Stabilised approach","—","Criteria (speed, path, configuration) an approach must meet by a set height; if not met, a go-around is required."],
+  ["RESA","Runway End Safety Area","A cleared area beyond the runway to reduce damage if an aircraft overruns."],
+  ["EMAS","Engineered Materials Arresting System","A crushable bed at a runway end that decelerates an overrunning aircraft."],
+  ["FOD","Foreign Object Debris/Damage","Loose objects on a runway/ramp (or the damage they cause) — the trigger of the Concorde accident."],
+  ["Pitot tube","—","A probe measuring airspeed via ram air pressure. Icing/blockage gives false airspeed (Air France 447)."],
+  ["Hypoxia","—","Oxygen deficiency impairing judgment and consciousness; the silent killer in the Helios 522 'ghost flight'."],
+  ["Decompression","—","Loss of cabin pressure; 'explosive' if very rapid, as in the JAL 123 bulkhead failure."],
+  ["Uncontained failure","—","An engine failure where high-energy debris escapes the casing, potentially cutting systems (United 232)."],
+  ["EWIS","Electrical Wiring Interconnection System","The aircraft's wiring as a certified system; standards were tightened after TWA 800 and Swissair 111."],
+  ["AD","Airworthiness Directive","A legally mandatory order from a regulator to inspect or fix a safety issue on a type of aircraft."],
+  ["METAR / TAF","—","Coded current weather observations (METAR) and forecasts (TAF) used in flight planning and investigation."],
+  ["NOTAM","Notice to Air Missions","A notice of hazards or changes (e.g. closed runways, unserviceable aids) relevant to a flight."],
+  ["Swiss-cheese model","Reason model","The idea that accidents occur when holes in multiple layers of defence momentarily align."],
+  ["Accredited representative","—","An official from another involved State (operator, manufacturer, etc.) entitled to take part in an Annex 13 investigation."],
+  ["NTSB / BEA / AAIB","Authorities","National investigation bodies: USA (NTSB), France (BEA), UK (AAIB); others include JTSB (Japan), TSB (Canada), KNKT (Indonesia)."],
+  ["Black box","—","Colloquial term for the CVR and FDR. They are painted bright orange for visibility in wreckage, not black."]
+];
+
+/* ---- Recommended channels / series ---- */
+const CHANNELS=[
+  ["Mayday: Air Crash Investigation","The flagship documentary series reconstructing major accidents with investigators and dramatisation. Search by flight number.","Mayday Air Crash Investigation full episodes"],
+  ["Mentour Pilot","An active airline captain breaks down accidents and systems with cockpit-accurate detail — excellent for students.","Mentour Pilot accident analysis"],
+  ["NTSB (official)","The U.S. National Transportation Safety Board's own channel: board meetings, animations and safety material.","NTSB official channel aviation"],
+  ["Green Dot Aviation","Clear, well-sourced accident documentaries with timelines and ATC audio.","Green Dot Aviation"],
+  ["Disaster Breakdown","Accessible, report-based breakdowns of accidents and their safety outcomes.","Disaster Breakdown aviation"],
+  ["TheFlightChannel","Flight-simulator reconstructions with FDR-based animations and ATC transcripts.","TheFlightChannel accident reconstruction"]
+];
+
+/* ============================================================
+   APP LOGIC
+   ============================================================ */
+const $=s=>document.querySelector(s);
+const grid=$("#grid"), searchEl=$("#search");
+const state={q:"",mfr:"",region:"",cat:"",auth:"",phase:"",status:"",decade:"",sort:"recent"};
+const FAC_LABEL={human:"Human factors",technical:"Technical / mechanical",organizational:"Organizational / systemic",environmental:"Environmental / weather"};
+const ACCENT={
+  "Structural failure":"#39d0ff","Runway collision":"#ff5d6c","Sabotage / security":"#ff5d6c","Engine failure":"#ffcf2e",
+  "Fuel tank / electrical":"#ffcf2e","In-flight fire":"#ff6a00","Tyre / fuel fire":"#ff6a00","Pressurization / hypoxia":"#bb8cff",
+  "Loss of control (LOC-I)":"#39d0ff","Bird strike":"#36e29a","Aerodynamic stall":"#ffcf2e","Approach / automation":"#39d0ff",
+  "Disappearance (unresolved)":"#ff5d6c","Deliberate act / human factors":"#bb8cff","Design / flight-control (MCAS)":"#ff5d6c",
+  "Runway excursion":"#ffcf2e","Bird strike / infrastructure":"#36e29a","Loss of power on takeoff":"#ffcf2e"
+};
+const CAT_DESC={
+  "Structural failure":"Airframe / pressure-vessel breakup","Runway collision":"Aircraft collide on the runway","Sabotage / security":"Deliberate external act (e.g. bomb)",
+  "Engine failure":"Powerplant failure, incl. uncontained","Fuel tank / electrical":"Fuel-system ignition / wiring","In-flight fire":"Smoke / fire aboard in flight",
+  "Tyre / fuel fire":"Tyre debris → fuel-tank fire","Pressurization / hypoxia":"Cabin pressure loss / oxygen","Loss of control (LOC-I)":"Departure from controlled flight",
+  "Bird strike":"Wildlife ingestion / impact","Aerodynamic stall":"Wing stall, mishandled","Approach / automation":"Unstable approach / mode confusion",
+  "Disappearance (unresolved)":"Aircraft lost, cause undetermined","Deliberate act / human factors":"Intentional act by a crew member","Design / flight-control (MCAS)":"Flight-control design defect",
+  "Runway excursion":"Overrun / veer-off the runway","Bird strike / infrastructure":"Wildlife + airport structure","Loss of power on takeoff":"Thrust loss during initial climb"
+};
+function ytSearch(q){return "https://www.youtube.com/results?search_query="+encodeURIComponent(q);}
+function uniq(fn){return [...new Set(DATA.map(fn))].sort();}
+function decadeOf(d){return Math.floor(+d.date.slice(0,4)/10)*10+"s";}
+function fmt(n){return n.toLocaleString("en-US");}
+
+/* ---- Filters ---- */
+function buildFilters(){
+  const fill=(id,opts,label)=>{$(id).innerHTML=`<option value="">${label}</option>`+opts.map(o=>`<option value="${o}">${o}</option>`).join("");};
+  fill("#f-mfr",uniq(d=>d.mfr),"All manufacturers");
+  fill("#f-region",uniq(d=>d.region),"All regions");
+  fill("#f-cat",uniq(d=>d.category),"All categories");
+  fill("#f-auth",uniq(d=>d.authority),"All authorities");
+  fill("#f-phase",uniq(d=>d.phase),"All phases");
+  fill("#f-status",uniq(d=>d.status),"Any status");
+  fill("#f-decade",[...new Set(DATA.map(decadeOf))].sort(),"All decades");
+}
+function matches(d){
+  if(state.mfr&&d.mfr!==state.mfr)return false;
+  if(state.region&&d.region!==state.region)return false;
+  if(state.cat&&d.category!==state.cat)return false;
+  if(state.auth&&d.authority!==state.auth)return false;
+  if(state.phase&&d.phase!==state.phase)return false;
+  if(state.status&&d.status!==state.status)return false;
+  if(state.decade&&decadeOf(d)!==state.decade)return false;
+  if(state.q){
+    const hay=[d.flight,d.operator,d.mfr,d.model,d.reg,d.origin,d.dest,d.region,d.country,d.category,d.authority,d.phase,d.summary,d.cause,(d.tags||[]).join(" "),d.date].join(" ").toLowerCase();
+    return state.q.toLowerCase().split(/\s+/).every(t=>hay.includes(t));
+  }
+  return true;
+}
+function sortList(list){
+  const s=state.sort;
+  return list.sort((a,b)=>{
+    if(s==="recent")return b.date.localeCompare(a.date);
+    if(s==="oldest")return a.date.localeCompare(b.date);
+    if(s==="deadliest")return (b.fatalities+b.ground)-(a.fatalities+a.ground);
+    if(s==="operator")return a.operator.localeCompare(b.operator);
+  });
+}
+function render(){
+  const list=sortList(DATA.filter(matches));
+  $("#s-cases").textContent=list.length;
+  $("#s-fatal").textContent=fmt(list.reduce((a,d)=>a+d.fatalities+d.ground,0));
+  $("#s-open").textContent=list.filter(d=>["Ongoing","Unresolved","Preliminary"].includes(d.status)).length;
+  $("#s-surv").textContent=fmt(list.reduce((a,d)=>a+d.survivors,0));
+  $("#resCount").textContent=list.length;$("#totCount").textContent=DATA.length;
+  const decs={};list.forEach(d=>{const k=decadeOf(d);decs[k]=(decs[k]||0)+1;});
+  const max=Math.max(1,...Object.values(decs));
+  $("#decadeBars").innerHTML=Object.keys(decs).sort().map(k=>`<div class="barrow"><span class="bl">${k}</span><span class="bartrack"><span class="barfill" style="width:${decs[k]/max*100}%"></span></span><span class="bn">${decs[k]}</span></div>`).join("")||`<div style="color:var(--txt-faint);font-size:12px">No cases match.</div>`;
+  const chips=[];const labelMap={mfr:"Mfr",region:"Region",cat:"Category",auth:"Authority",phase:"Phase",status:"Status",decade:"Decade",q:"Search"};
+  Object.keys(labelMap).forEach(k=>{if(state[k])chips.push(`<span class="chip">${labelMap[k]}: ${state[k]}<button data-clear="${k}">×</button></span>`);});
+  $("#activeChips").innerHTML=chips.join("");
+  if(!list.length){grid.innerHTML=`<div class="empty" style="grid-column:1/-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><div>No investigations match your search or filters.</div></div>`;return;}
+  grid.innerHTML=list.map(d=>{
+    const acc=ACCENT[d.category]||"#ff6a00";const total=d.fatalities+d.ground;
+    return `<div class="card" data-id="${d.id}" style="--accent:${acc}">
+      <div class="top"><div><div class="flight">${d.flight}</div><h4>${d.origin.split(" (")[0]} → ${d.dest.split(" (")[0]}</h4></div>
+        <div style="text-align:right"><div class="date">${d.date}</div><div class="st ${d.status}" style="margin-top:6px;display:inline-block">${d.status}</div></div></div>
+      <div class="ac"><b>${d.mfr} ${d.model}</b> · ${d.reg} · ${d.country}</div>
+      <div class="badges"><span class="badge cat">${d.category}</span><span class="badge auth">${d.authority.split(" (")[0]}</span><span class="badge region">${d.region}</span></div>
+      <div class="casual">
+        <div class="c"><span class="cn">${fmt(d.occupants)}</span><span class="cl">Aboard</span></div>
+        <div class="c fatal"><span class="cn">${fmt(total)}</span><span class="cl">Fatalities${d.ground?" *":""}</span></div>
+        <div class="c surv"><span class="cn">${fmt(d.survivors)}</span><span class="cl">Survivors</span></div>
+        <div class="c"><span class="cn">${d.phase}</span><span class="cl">Phase</span></div>
+      </div></div>`;
+  }).join("");
+}
+
+/* ---- Drawer ---- */
+function openDrawer(id){
+  const d=DATA.find(x=>x.id===id);if(!d)return;
+  const total=d.fatalities+d.ground;
+  const factorsHTML=Object.keys(d.factors||{}).map(cat=>(d.factors[cat]||[]).map(f=>`<li class="${cat}"><span class="ftag">${FAC_LABEL[cat]}</span>${f}</li>`).join("")).join("");
+  const docNote=DOCNOTES[d.id]?`<div class="docnote">${DOCNOTES[d.id]}</div>`:"";
+  $("#drawerContent").innerHTML=`
+    <div class="dhead">
+      <button class="dclose" id="dclose">×</button>
+      <div class="dflight">${d.flight} · ${d.status.toUpperCase()}</div>
+      <h2>${d.origin.split(" (")[0]} → ${d.dest.split(" (")[0]}</h2>
+      <div class="dmeta">${d.date} · ${d.mfr} ${d.model} · ${d.reg}</div>
+      <div class="tagrow">${(d.tags||[]).map(t=>`<span class="tag" data-tag="${t}">#${t}</span>`).join("")}</div>
+    </div>
+    <div class="dbody">
+      <div class="keygrid">
+        <div class="kv"><div class="k">Operator</div><div class="v">${d.operator}</div></div>
+        <div class="kv"><div class="k">Route</div><div class="v">${d.origin} → ${d.dest}</div></div>
+        <div class="kv"><div class="k">Region / Country</div><div class="v">${d.region} · ${d.country}</div></div>
+        <div class="kv"><div class="k">Phase of flight</div><div class="v">${d.phase}</div></div>
+        <div class="kv"><div class="k">Occupants</div><div class="v">${fmt(d.occupants)}</div></div>
+        <div class="kv"><div class="k">Fatalities</div><div class="v red">${fmt(total)}${d.ground?` (incl. ${d.ground} on ground)`:""}</div></div>
+        <div class="kv"><div class="k">Survivors</div><div class="v green">${fmt(d.survivors)}</div></div>
+        <div class="kv"><div class="k">Category</div><div class="v">${d.category}</div></div>
+        <div class="kv"><div class="k">Authority</div><div class="v">${d.authority}</div></div>
+        <div class="kv"><div class="k">Status</div><div class="v ${d.status==='Final'?'green':(d.status==='Unresolved'?'red':'amber')}">${d.status}${d.reportYear?` · ${d.reportYear}`:""}</div></div>
+      </div>
+      <div class="sec"><h5>Synopsis</h5><p>${d.summary}</p></div>
+      <div class="sec"><h5>Probable cause / official finding</h5><div class="cause"><p>${d.cause}</p></div></div>
+      ${factorsHTML?`<div class="sec"><h5>Contributing factors &amp; failures</h5><ul class="factors">${factorsHTML}</ul></div>`:""}
+      ${(d.actions||[]).length?`<div class="sec"><h5>Safety recommendations &amp; further actions</h5><ul class="actions">${d.actions.map(a=>`<li>${a}</li>`).join("")}</ul></div>`:""}
+      ${d.takeaway?`<div class="sec"><h5>Student takeaway</h5><div class="takeaway"><span class="ti">🎓</span><p>${d.takeaway}</p></div></div>`:""}
+      ${d.significance?`<div class="sec"><h5>Why it matters</h5><div class="signif"><p>${d.significance}</p></div></div>`:""}
+      <div class="sec"><h5>Watch &amp; learn</h5>
+        <div class="videos">
+          <a class="vidlink" href="${ytSearch(d.flight+' air crash investigation documentary')}" target="_blank" rel="noopener">
+            <span class="yt">${YT_SVG}</span><div><div class="vt">Documentary &amp; reconstruction</div><div class="vs">Mayday / Air Crash Investigation &amp; reconstructions of ${d.flight}</div></div><span class="go">↗</span></a>
+          <a class="vidlink" href="${ytSearch(d.flight+' analysis Mentour Pilot')}" target="_blank" rel="noopener">
+            <span class="yt">${YT_SVG}</span><div><div class="vt">In-depth pilot / engineer analysis</div><div class="vs">Detailed breakdown of causes &amp; cockpit sequence</div></div><span class="go">↗</span></a>
+        </div>${docNote}
+      </div>
+      ${d.report?`<a class="reportbtn" href="${d.report}" target="_blank" rel="noopener">📄 Open official report / authority site ↗</a>`:""}
+    </div>`;
+  $("#overlay").classList.add("open");$("#drawer").classList.add("open");document.body.style.overflow="hidden";
+  $("#dclose").onclick=closeDrawer;
+  $("#drawerContent").querySelectorAll(".tag").forEach(t=>t.onclick=()=>{switchView("registry");searchEl.value=t.dataset.tag;state.q=t.dataset.tag;closeDrawer();render();window.scrollTo({top:0,behavior:"smooth"});});
+}
+function closeDrawer(){$("#overlay").classList.remove("open");$("#drawer").classList.remove("open");document.body.style.overflow="";}
+const YT_SVG=`<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.5 7.5v9l7.5-4.5z"/></svg>`;
+
+/* ---- Static views ---- */
+function buildStatic(){
+  $("#catLegend").innerHTML=uniq(d=>d.category).map(c=>`<div class="lg" style="--accent:${ACCENT[c]||'#ff6a00'}"><b>${c}</b><span>${CAT_DESC[c]||''}</span></div>`).join("");
+  renderGloss("");
+  $("#channelGrid").innerHTML=CHANNELS.map(c=>`<a class="channel" href="${ytSearch(c[2])}" target="_blank" rel="noopener"><div class="ch-top"><span class="yt">${YT_SVG}</span><span class="cn">${c[0]}</span></div><div class="cd">${c[1]}</div></a>`).join("");
+}
+function renderGloss(q){
+  q=(q||"").toLowerCase();
+  const list=GLOSSARY.filter(g=>!q||(g[0]+" "+g[1]+" "+g[2]).toLowerCase().includes(q)).sort((a,b)=>a[0].localeCompare(b[0]));
+  $("#glossGrid").innerHTML=list.length?list.map(g=>`<div class="gloss"><div><span class="term">${g[0]}</span>${g[1]&&g[1]!=="—"?`<span class="abbr">${g[1]}</span>`:""}</div><div class="def">${g[2]}</div></div>`).join(""):`<div class="empty" style="grid-column:1/-1">No matching terms.</div>`;
+}
+
+/* ---- View switching ---- */
+function switchView(v){
+  document.querySelectorAll("nav.tabs button").forEach(b=>b.classList.toggle("active",b.dataset.view===v));
+  document.querySelectorAll(".view").forEach(s=>s.classList.remove("active"));
+  $("#view-"+v).classList.add("active");
+  window.scrollTo({top:0});
+}
+
+/* ---- Events ---- */
+searchEl.addEventListener("input",e=>{state.q=e.target.value;if(!$("#view-registry").classList.contains("active"))switchView("registry");render();});
+const fmap={"#f-mfr":"mfr","#f-region":"region","#f-cat":"cat","#f-auth":"auth","#f-phase":"phase","#f-status":"status","#f-decade":"decade"};
+Object.keys(fmap).forEach(sel=>$(sel).addEventListener("change",e=>{state[fmap[sel]]=e.target.value;render();}));
+$("#sort").addEventListener("change",e=>{state.sort=e.target.value;render();});
+$("#clearBtn").addEventListener("click",()=>{Object.keys(state).forEach(k=>{if(k!=="sort")state[k]="";});searchEl.value="";buildFilters();render();});
+grid.addEventListener("click",e=>{const c=e.target.closest(".card");if(c)openDrawer(c.dataset.id);});
+$("#activeChips").addEventListener("click",e=>{const b=e.target.closest("[data-clear]");if(!b)return;const k=b.dataset.clear;state[k]="";if(k==="q")searchEl.value="";const inv={mfr:"#f-mfr",region:"#f-region",cat:"#f-cat",auth:"#f-auth",phase:"#f-phase",status:"#f-status",decade:"#f-decade"};if(inv[k])$(inv[k]).value="";render();});
+$("#overlay").addEventListener("click",closeDrawer);
+document.querySelectorAll("nav.tabs button").forEach(b=>b.addEventListener("click",()=>switchView(b.dataset.view)));
+$("#glossFilter").addEventListener("input",e=>renderGloss(e.target.value));
+document.addEventListener("keydown",e=>{if(e.key==="/"&&document.activeElement!==searchEl&&document.activeElement!==$("#glossFilter")){e.preventDefault();searchEl.focus();}if(e.key==="Escape"){closeDrawer();searchEl.blur();}});
+
+buildFilters();render();buildStatic();
+</script>
+</body>
+</html>
