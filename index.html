@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Aircraft Accident Investigation Registry · Study & Reference</title>
-<meta name="description" content="A free, searchable registry of landmark aircraft accident investigations — causes, contributing factors, safety recommendations and documentary links — built for students and investigators." />
+<title>Aerospace Accident Investigation Registry · Aircraft, Spacecraft & Hypersonic</title>
+<meta name="description" content="A free, searchable registry of landmark aerospace accident investigations — aircraft, spacecraft, rockets, hypersonic and supersonic vehicles — with causes, contributing factors, safety recommendations and documentary links, for students and investigators." />
 <style>
   :root{
     --bg:#0a0c10;
@@ -123,6 +123,7 @@
   .badge.cat{background:rgba(255,106,0,.1);color:var(--orange-2);border-color:rgba(255,106,0,.28)}
   .badge.auth{background:rgba(187,140,255,.1);color:var(--violet);border-color:rgba(187,140,255,.25)}
   .badge.region{background:rgba(148,163,189,.1);color:var(--txt-dim);border-color:var(--line-2)}
+  .badge.dom{background:rgba(57,208,255,.1);color:var(--cyan);border-color:rgba(57,208,255,.28)}
   .st{font-family:var(--mono);font-size:10.5px;padding:3px 9px;border-radius:6px;letter-spacing:.4px}
   .st.Final{background:rgba(54,226,154,.12);color:var(--green)}
   .st.Ongoing,.st.Preliminary{background:rgba(255,207,46,.14);color:var(--hazard)}
@@ -258,8 +259,8 @@
         </svg>
       </div>
       <div>
-        <h1>Aircraft Accident Investigation Registry</h1>
-        <div class="sub"><b>study &amp; reference</b> · ICAO Annex&nbsp;13 case archive · for students &amp; investigators</div>
+        <h1>Aerospace Accident Investigation Registry</h1>
+        <div class="sub"><b>aircraft · spacecraft · hypersonic</b> · accident &amp; mishap archive · for students &amp; investigators</div>
       </div>
     </div>
     <div class="searchwrap">
@@ -280,13 +281,14 @@
 <section class="view active" id="view-registry">
   <div class="wrap">
     <div class="disc">
-      ⚠ <b>Reference archive for study &amp; situational awareness.</b> Figures are drawn from official accident reports (NTSB / BEA / AAIB / JTSB / TSB and other ICAO&nbsp;Annex&nbsp;13 authorities). For operational, legal or research use, always consult the primary final report. Cases marked <b>Ongoing / Preliminary</b> have no final probable cause yet — findings shown are provisional. These are real tragedies; the registry exists to help prevent the next one.
+      ⚠ <b>Reference archive for study &amp; situational awareness.</b> Figures are drawn from official accident &amp; mishap reports (NTSB / BEA / AAIB / JTSB / TSB and other ICAO&nbsp;Annex&nbsp;13 authorities; NASA / ESA / Roscosmos / ISRO and review boards for spaceflight). For operational, legal or research use, always consult the primary final report. Cases marked <b>Ongoing / Preliminary</b> have no final probable cause yet — findings shown are provisional. These are real tragedies; the registry exists to help prevent the next one.
     </div>
     <div class="reglayout">
       <aside class="filters">
         <div class="panel">
           <h3><span class="dot"></span>Filters</h3>
-          <div class="fgroup"><label>Aircraft manufacturer</label><select id="f-mfr"></select></div>
+          <div class="fgroup"><label>Domain</label><select id="f-domain"></select></div>
+          <div class="fgroup"><label>Manufacturer / agency</label><select id="f-mfr"></select></div>
           <div class="fgroup"><label>Region</label><select id="f-region"></select></div>
           <div class="fgroup"><label>Occurrence category</label><select id="f-cat"></select></div>
           <div class="fgroup"><label>Investigating authority</label><select id="f-auth"></select></div>
@@ -331,7 +333,7 @@
   <div class="wrap">
     <div class="lead">
       <h2>How an air accident is investigated</h2>
-      <p>Modern investigations follow <b>ICAO Annex&nbsp;13</b>, the international standard. The sole objective is the <b>prevention of future accidents</b> — not to apportion blame or liability. The flow below shows how raw wreckage becomes a final report and, ultimately, safer skies.</p>
+      <p>Modern aircraft investigations follow <b>ICAO Annex&nbsp;13</b>, the international standard. The sole objective is the <b>prevention of future accidents</b> — not to apportion blame or liability. Spaceflight uses the same prevention-first logic through <b>Mishap Investigation Boards</b> (NASA, ESA, Roscosmos, ISRO and others) and review commissions such as Rogers and CAIB. The flow below shows how raw wreckage becomes a final report and, ultimately, safer skies.</p>
     </div>
     <div class="steps">
       <div class="step"><div class="num"></div><div><div class="ph">Hours · State of Occurrence notified</div><h4>Notification &amp; team assembly</h4><p>The State where the accident happened opens the investigation and appoints an Investigator-in-Charge. Other States (of the operator, manufacturer, engine maker, and States that lost citizens) send <em>accredited representatives</em> and advisers.</p></div></div>
@@ -404,7 +406,7 @@
 <div class="drawer" id="drawer"><div id="drawerContent"></div></div>
 
 <footer class="app">
-  <b>Aircraft Accident Investigation Registry</b> · 53 documented occurrences · 20+ investigating authorities · spanning 1954–2025 · built as a free, self-contained study resource.<br/>
+  <b>Aerospace Accident Investigation Registry</b> · 86 documented occurrences · aircraft, spacecraft, rockets &amp; hypersonic/supersonic vehicles · 30+ investigating bodies · spanning 1954–2025 · a free, self-contained study resource.<br/>
   Each case follows the ICAO&nbsp;Annex&nbsp;13 structure: factual information → analysis → conclusions (probable cause + contributing factors) → safety recommendations. Press <b>/</b> to search · open-source, educational, non-commercial.
 </footer>
 
@@ -1154,6 +1156,474 @@ const DATA = [
     significance:"A fuel-quality accident that strengthened jet-fuel supply-chain controls.",
     takeaway:"Clean fuel is a safety system. Contamination upstream can disable both engines at once.",
     report:"https://www.cad.gov.hk/"
+  },
+
+  /* ===================== SPACECRAFT & ROCKETS ===================== */
+  {
+    id:"apollo1", flight:"Apollo 1 (AS-204)", operator:"NASA", date:"1967-01-27", domain:"Spacecraft & rockets",
+    mfr:"North American Aviation", model:"Apollo Command Module", reg:"CM-012", origin:"Kennedy LC-34 (plugs-out test)", dest:"Low Earth orbit (planned)",
+    region:"North America", country:"United States", occupants:3, fatalities:3, survivors:0, ground:0,
+    phase:"Ground test", category:"Spacecraft fire", authority:"NASA (Apollo 204 Review Board)", status:"Final", reportYear:1967,
+    tags:["cabin fire","pure oxygen","hatch design","Grissom White Chaffee"],
+    summary:"During a 'plugs-out' launch-pad rehearsal, a flash fire swept the sealed command module in seconds. Astronauts Gus Grissom, Ed White and Roger Chaffee could not open the inward-opening hatch and died of asphyxiation and burns.",
+    cause:"An electrical arc most likely ignited combustible materials in a 100% oxygen, above-ambient-pressure cabin; the fire spread explosively and the complex, inward-opening hatch could not be opened in time.",
+    factors:{technical:["Pure high-pressure oxygen atmosphere on the pad","Vulnerable wiring/plumbing and abundant flammable materials","Inward-opening, slow-to-open hatch"],organizational:["Schedule pressure; fire hazards of the test configuration under-appreciated"]},
+    actions:["Redesigned outward-opening quick-release hatch","Reduced/oxygen-nitrogen cabin atmosphere on the pad; flammable materials removed","Sweeping wiring and quality-control reforms before crewed Apollo flights"],
+    significance:"The fire that forced NASA to confront safety culture before the Moon landings — its fixes made Apollo survivable.",
+    takeaway:"A 'routine' ground test is still spaceflight. Treat every configuration, even unfuelled on the pad, as hazardous.",
+    report:"https://www.nasa.gov/"
+  },
+  {
+    id:"soyuz1", flight:"Soyuz 1", operator:"Soviet space program", date:"1967-04-24", domain:"Spacecraft & rockets",
+    mfr:"OKB-1 (Korolev)", model:"Soyuz 7K-OK", reg:"7K-OK No.4", origin:"Baikonur Cosmodrome", dest:"Earth orbit / return",
+    region:"Asia", country:"Soviet Union", occupants:1, fatalities:1, survivors:0, ground:0,
+    phase:"Re-entry / landing", category:"Spacecraft re-entry failure", authority:"State Commission (USSR)", status:"Final", reportYear:1967,
+    tags:["parachute failure","rushed program","Komarov"],
+    summary:"On the troubled maiden crewed Soyuz flight, cosmonaut Vladimir Komarov re-entered after numerous in-orbit malfunctions, but the capsule's parachutes failed and it struck the ground at high speed. He was killed.",
+    cause:"The main parachute failed to deploy properly and the reserve chute tangled (partly fouled by the main), so the descent module was not slowed and impacted at lethal speed.",
+    factors:{technical:["Main parachute container/deployment fault; reserve fouled","Many known spacecraft defects flown anyway"],organizational:["Intense political/schedule pressure overrode unresolved test failures"]},
+    actions:["Redesign and rigorous testing of the Soyuz parachute system","Extensive uncrewed Soyuz re-qualification before crews flew again","A reset of Soviet crewed-flight risk acceptance"],
+    significance:"A stark lesson that political deadlines must never outrank unresolved engineering defects.",
+    takeaway:"Flying with known, unfixed defects is gambling with a life. Engineering 'no-go' calls exist for a reason.",
+    report:"https://www.roscosmos.ru/"
+  },
+  {
+    id:"soyuz11", flight:"Soyuz 11", operator:"Soviet space program", date:"1971-06-30", domain:"Spacecraft & rockets",
+    mfr:"OKB-1 (Korolev)", model:"Soyuz 7K-OKS", reg:"7K-OKS No.32", origin:"Salyut 1 space station", dest:"Earth (re-entry)",
+    region:"Asia", country:"Soviet Union (Kazakhstan)", occupants:3, fatalities:3, survivors:0, ground:0,
+    phase:"Re-entry / landing", category:"Spacecraft re-entry failure", authority:"State Commission (USSR)", status:"Final", reportYear:1971,
+    tags:["cabin depressurisation","pressure valve","no pressure suits","only deaths in space"],
+    summary:"Returning from the world's first space-station stay, a pressure-equalisation valve jolted open during module separation and the cabin depressurised at altitude. The three cosmonauts, not wearing pressure suits, asphyxiated. They remain the only humans to die in space.",
+    cause:"A breathing-ventilation valve was shaken open by the pyrotechnic separation of the descent module, venting the cabin to vacuum; with no pressure suits the crew could not survive the rapid decompression.",
+    factors:{technical:["Pressure-equalisation valve opened prematurely during separation"],organizational:["Crew flew without pressure suits to fit three seats in the capsule"]},
+    actions:["Reintroduction of the Sokol pressure suit for launch and re-entry","Crew reduced to two to accommodate suits and survival margins","Valve and separation-sequence redesign"],
+    significance:"Established the enduring rule that crews wear pressure suits during dynamic flight phases.",
+    takeaway:"Saving mass by removing protective equipment can cost everything. Survival margins are not optional payload.",
+    report:"https://www.roscosmos.ru/"
+  },
+  {
+    id:"challenger", flight:"Space Shuttle Challenger (STS-51-L)", operator:"NASA", date:"1986-01-28", domain:"Spacecraft & rockets",
+    mfr:"Rockwell / NASA", model:"Space Shuttle orbiter", reg:"OV-099", origin:"Kennedy LC-39B", dest:"Low Earth orbit",
+    region:"North America", country:"United States", occupants:7, fatalities:7, survivors:0, ground:0,
+    phase:"Launch / ascent", category:"Launch vehicle failure", authority:"Rogers Commission (USA)", status:"Final", reportYear:1986,
+    tags:["O-ring","cold launch","SRB joint","normalization of deviance"],
+    summary:"Seventy-three seconds after liftoff on an unusually cold morning, a solid rocket booster joint failed and the external tank ruptured; Challenger broke apart, killing all seven aboard including teacher Christa McAuliffe.",
+    cause:"A solid rocket booster field-joint O-ring lost its sealing resilience in near-freezing temperatures, allowing hot combustion gas to blow by and burn into the external tank, leading to structural breakup during ascent.",
+    factors:{technical:["O-ring resiliency lost in cold; flawed booster field-joint design"],organizational:["Management launched despite engineers' cold-temperature objections","Repeated prior O-ring erosion accepted — 'normalization of deviance'"]},
+    actions:["Redesigned booster joint (captured tang, third O-ring, heaters)","Launch-temperature constraints and an independent safety organisation","Reforms to flight-readiness decision-making and dissent channels"],
+    significance:"The defining organisational-safety accident — Feynman's O-ring demonstration made the cause unforgettable.",
+    takeaway:"Listen to the engineer who says 'don't'. A risk you've gotten away with before is still a risk.",
+    report:"https://www.nasa.gov/"
+  },
+  {
+    id:"columbia", flight:"Space Shuttle Columbia (STS-107)", operator:"NASA", date:"2003-02-01", domain:"Spacecraft & rockets",
+    mfr:"Rockwell / NASA", model:"Space Shuttle orbiter", reg:"OV-102", origin:"Orbit (re-entry)", dest:"Kennedy (KSC) landing",
+    region:"North America", country:"United States", occupants:7, fatalities:7, survivors:0, ground:0,
+    phase:"Re-entry / landing", category:"Spacecraft re-entry failure", authority:"CAIB (USA)", status:"Final", reportYear:2003,
+    tags:["foam strike","RCC leading edge","re-entry breakup","Kalpana Chawla"],
+    summary:"A briefcase-sized piece of foam had struck the left wing during launch. Sixteen days later, superheated plasma entered the breach during re-entry and the orbiter disintegrated over Texas, killing all seven, including India-born astronaut Kalpana Chawla.",
+    cause:"Insulating foam shed from the external tank during ascent struck and breached a reinforced carbon-carbon (RCC) panel on the left wing leading edge; on re-entry, hot gas entered the wing and destroyed its structure.",
+    factors:{technical:["Foam-shedding from the external tank bipod ramp","RCC leading-edge panel breached, defeating thermal protection"],organizational:["Repeated foam strikes accepted as routine; in-orbit imaging/inspection not pursued"]},
+    actions:["Eliminated/limited foam shedding and added on-orbit inspection (RPM, OBSS boom)","In-orbit repair capability and ISS 'safe haven' contingency","Drove the eventual retirement of the Space Shuttle (2011)"],
+    significance:"A near-repeat of Challenger's organisational failures — complacency toward a known anomaly — 17 years later.",
+    takeaway:"When a problem keeps happening without consequence, that's a warning, not reassurance. Go look.",
+    report:"https://www.nasa.gov/"
+  },
+  {
+    id:"apollo13", flight:"Apollo 13", operator:"NASA", date:"1970-04-13", domain:"Spacecraft & rockets",
+    mfr:"North American / Grumman", model:"Apollo CSM / Lunar Module", reg:"CSM-109 'Odyssey'", origin:"Kennedy LC-39A", dest:"Moon (Fra Mauro)",
+    region:"Cislunar space", country:"United States", occupants:3, fatalities:0, survivors:3, ground:0,
+    phase:"Cruise (translunar)", category:"Spacecraft system failure", authority:"NASA (Cortright Review Board)", status:"Final", reportYear:1970,
+    tags:["oxygen tank explosion","survivable","improvisation","successful failure"],
+    summary:"Halfway to the Moon a service-module oxygen tank exploded, crippling power, oxygen and propulsion. The crew used the Lunar Module as a lifeboat and, with ground improvisation, looped around the Moon and returned safely — a celebrated 'successful failure'.",
+    cause:"Damaged Teflon insulation on wiring inside oxygen tank No. 2 (from a combination of a prior drop, an out-of-spec ground detanking, and use of incompatible thermostats) ignited during a routine stir, rupturing the tank and venting the service module's oxygen and power.",
+    factors:{technical:["Damaged tank heater wiring insulation that ignited during a stir","Single-fault cascade crippling oxygen, power and the main engine"],organizational:["A ground test overheated the tank; the damage went undetected"]},
+    actions:["Oxygen-tank redesign (removed problematic thermostats/fans, added a third tank)","Added emergency battery and water reserves","Validated abort and free-return contingency planning and CRM under crisis"],
+    significance:"The benchmark survivable spacecraft accident — proof that disciplined teamwork can turn catastrophe into rescue.",
+    takeaway:"Methodical problem-solving and ground-crew teamwork brought them home. In a crisis, work the problem.",
+    report:"https://www.nasa.gov/"
+  },
+  {
+    id:"soyuzms10", flight:"Soyuz MS-10", operator:"Roscosmos", date:"2018-10-11", domain:"Spacecraft & rockets",
+    mfr:"RKK Energia / Roscosmos", model:"Soyuz-FG / Soyuz MS", reg:"Soyuz MS-10", origin:"Baikonur Cosmodrome", dest:"International Space Station",
+    region:"Asia", country:"Kazakhstan (Baikonur)", occupants:2, fatalities:0, survivors:2, ground:0,
+    phase:"Launch / ascent", category:"Launch vehicle failure", authority:"Roscosmos commission", status:"Final", reportYear:2018,
+    tags:["booster separation","launch abort","escape system worked","survivable"],
+    summary:"About two minutes into ascent a strap-on booster failed to separate cleanly and struck the core. The launch-escape system triggered an abort; Aleksey Ovchinin and Nick Hague rode a steep ballistic re-entry to a safe landing, unharmed.",
+    cause:"A separation sensor pin was bent during booster assembly at the cosmodrome, so a strap-on booster did not jettison correctly and collided with the core stage, triggering the automatic launch abort.",
+    factors:{technical:["Deformed separation sensor pin (assembly damage)","Strap-on booster contacted the core during separation"],organizational:["Assembly/quality-control lapse at the launch site"]},
+    actions:["Corrected booster-assembly procedures and inspections","Validated the launch-escape system that saved the crew","Brief Soyuz stand-down and return-to-flight review"],
+    significance:"A vivid demonstration that a well-designed abort system turns a launch failure into a survivable event.",
+    takeaway:"Abort systems are the ultimate backup. They must work flawlessly on the worst day — and here they did.",
+    report:"https://www.roscosmos.ru/"
+  },
+  {
+    id:"nedelin", flight:"Nedelin catastrophe (R-16)", operator:"Soviet Strategic Rocket Forces", date:"1960-10-24", domain:"Spacecraft & rockets",
+    mfr:"OKB-586 (Yangel)", model:"R-16 ICBM (prototype)", reg:"R-16 8K64", origin:"Baikonur LC-41", dest:"(test launch)",
+    region:"Asia", country:"Kazakhstan (Baikonur)", occupants:0, fatalities:0, survivors:0, ground:78,
+    phase:"On-pad / pre-launch", category:"Pad / fueling explosion", authority:"State Commission (USSR)", status:"Final", reportYear:1960,
+    tags:["pad explosion","hypergolic fuel","secrecy","deadliest rocket accident"],
+    summary:"A fuelled R-16 missile's second-stage engine ignited on the pad during repairs while dozens of personnel worked around it. The fireball killed Marshal Mitrofan Nedelin and an estimated 78 people (some estimates exceed 120). The disaster was concealed for nearly 30 years.",
+    cause:"With the rocket fully loaded with hypergolic propellants, safety interlocks were bypassed and the second-stage engine fired prematurely (an electrical command in the wrong sequence), igniting the propellants amid a crowd of technicians.",
+    factors:{organizational:["Schedule pressure for an anniversary launch; safety rules bypassed","Many personnel allowed near a fully fuelled rocket during troubleshooting"],technical:["Hypergolic propellants ignite on contact with no external source"]},
+    actions:["Hard limits on personnel near fuelled rockets and stricter pad safety","Rigorous interlock and command-sequence discipline","Lessons hidden for decades until declassification in 1989"],
+    significance:"The deadliest accident in rocketry history and a lesson in how secrecy and schedule pressure compound danger.",
+    takeaway:"Never crowd a fuelled rocket. Schedule pressure plus bypassed safeguards is a recipe for mass casualties.",
+    report:"https://www.roscosmos.ru/"
+  },
+  {
+    id:"n1", flight:"N1 (3 July 1969)", operator:"Soviet space program", date:"1969-07-03", domain:"Spacecraft & rockets",
+    mfr:"OKB-1 (Korolev/Mishin)", model:"N1 (Moon rocket)", reg:"N1 No. 5L", origin:"Baikonur LC-110", dest:"Moon (uncrewed test)",
+    region:"Asia", country:"Kazakhstan (Baikonur)", occupants:0, fatalities:0, survivors:0, ground:0,
+    phase:"Launch / ascent", category:"Launch vehicle failure", authority:"State Commission (USSR)", status:"Final", reportYear:1969,
+    tags:["first stage","30 engines","fell back on pad","Moon race"],
+    summary:"The Soviet Moon rocket lifted a short distance, lost thrust as its first-stage engines shut down, and fell back onto the pad in one of the largest non-nuclear explosions ever — destroying the launch complex. It was uncrewed; no one was hurt.",
+    cause:"Debris (likely a loosened bolt or pump fragment) entered an oxidiser pump, causing an engine fire; the control system (KORD) shut down all 30 first-stage engines, and the fully fuelled rocket fell back and detonated.",
+    factors:{technical:["Complex 30-engine first stage difficult to test and control","Foreign-object ingestion and an engine fire","Limited ground testing of the complete first stage"],organizational:["Programme rushed to catch the U.S. Moon landing"]},
+    actions:["Extensive engine-control (KORD) and plumbing revisions between attempts","Ultimately the N1 was cancelled after four failures","Engines (NK-33) preserved and later flown decades afterwards"],
+    significance:"The rocket whose four failures effectively ended the Soviet crewed-Moon effort — a lesson in testing complex systems.",
+    takeaway:"You cannot debug a 30-engine stage on the launch pad. What you can't fully test, you don't fully understand.",
+    report:"https://www.roscosmos.ru/"
+  },
+  {
+    id:"vanguardtv3", flight:"Vanguard TV-3", operator:"US Navy (NRL)", date:"1957-12-06", domain:"Spacecraft & rockets",
+    mfr:"Martin / NRL", model:"Vanguard", reg:"Vanguard TV-3", origin:"Cape Canaveral LC-18A", dest:"Earth orbit (test satellite)",
+    region:"North America", country:"United States", occupants:0, fatalities:0, survivors:0, ground:0,
+    phase:"Launch / ascent", category:"Launch vehicle failure", authority:"US Navy / NRL", status:"Final", reportYear:1957,
+    tags:["first US satellite attempt","Flopnik","pad fallback","Sputnik era"],
+    summary:"America's first satellite attempt, rushed after Sputnik and watched live on TV, rose about a metre before losing thrust, sank back and exploded. The tiny satellite rolled free, still beeping. The press dubbed it 'Flopnik'.",
+    cause:"A loss of thrust shortly after ignition (attributed to a fuel-system/feed problem causing low tank pressure and an engine failure) let the rocket settle back onto the pad and explode.",
+    factors:{technical:["Propellant feed/fuel-injector problem causing thrust loss at liftoff"],organizational:["Programme rushed under Cold-War pressure to answer Sputnik"]},
+    actions:["Accelerated reliance on the Army's Juno I (Explorer 1) which succeeded weeks later","Strengthened US launch-vehicle development and testing discipline","A public lesson in managing expectations during rushed firsts"],
+    significance:"A national embarrassment that reshaped early US space strategy and helped spur the creation of NASA.",
+    takeaway:"Public, rushed firsts carry double the risk. The fix was patience and a more mature vehicle.",
+    report:"https://www.nasa.gov/"
+  },
+  {
+    id:"ariane501", flight:"Ariane 5 Flight 501", operator:"ESA / Arianespace", date:"1996-06-04", domain:"Spacecraft & rockets",
+    mfr:"ESA / Arianespace", model:"Ariane 5", reg:"Ariane 5 (501)", origin:"Kourou ELA-3", dest:"Earth orbit (Cluster satellites)",
+    region:"South America", country:"French Guiana (ESA)", occupants:0, fatalities:0, survivors:0, ground:0,
+    phase:"Launch / ascent", category:"Launch vehicle failure", authority:"ESA Inquiry Board (Lions report)", status:"Final", reportYear:1996,
+    tags:["software exception","integer overflow","code reuse","self-destruct"],
+    summary:"On its maiden flight the Ariane 5 veered off course and self-destructed about 37 seconds after launch, destroying its four Cluster science satellites. The cause became the most famous software-engineering failure in aerospace.",
+    cause:"Inertial-reference software reused from Ariane 4 tried to convert a 64-bit floating-point horizontal-velocity value into a 16-bit integer; Ariane 5's higher velocity overflowed it, throwing an unhandled exception. Both reference units shut down and fed diagnostic data to the engines as if it were flight data, commanding a fatal nozzle deflection.",
+    factors:{technical:["Unhandled numeric overflow in reused inertial-reference code","Diagnostic output misinterpreted as valid flight data; no fault tolerance"],organizational:["Reused software not re-validated for the new vehicle's flight envelope"]},
+    actions:["Mandatory revalidation and review of all reused flight software","Robust exception handling and range-checking of conversions","Independent software verification for launch vehicles"],
+    significance:"The canonical case for never trusting reused code without re-verifying it against the new operating envelope.",
+    takeaway:"Code that was correct on one vehicle can be lethal on another. Re-validate assumptions, not just functions.",
+    report:"https://www.esa.int/"
+  },
+  {
+    id:"crs7", flight:"SpaceX CRS-7", operator:"SpaceX / NASA", date:"2015-06-28", domain:"Spacecraft & rockets",
+    mfr:"SpaceX", model:"Falcon 9 v1.1", reg:"Falcon 9 (CRS-7)", origin:"Cape Canaveral SLC-40", dest:"International Space Station (cargo)",
+    region:"North America", country:"United States", occupants:0, fatalities:0, survivors:0, ground:0,
+    phase:"Launch / ascent", category:"Launch vehicle failure", authority:"SpaceX / NASA / FAA", status:"Final", reportYear:2015,
+    tags:["strut failure","helium COPV","overpressure","supplier part"],
+    summary:"About 139 seconds into ascent the Falcon 9's second stage ruptured and the rocket broke up, destroying a Dragon cargo ship bound for the ISS. No one was aboard.",
+    cause:"A steel strut holding a high-pressure helium bottle inside the second-stage liquid-oxygen tank failed far below its rated load (a defective supplier part), releasing helium and over-pressurising the tank until the stage burst.",
+    factors:{technical:["Under-strength strut (material/supplier defect) holding a helium COPV","Resulting overpressure ruptured the second-stage tank"],organizational:["Incoming-parts testing did not catch the weak strut"]},
+    actions:["Changed strut supplier and added individual part testing","Added contingency parachute-deploy software so future Dragons could survive such a breakup","Reinforced incoming-inspection and material traceability"],
+    significance:"Showed how a single cheap, untested component can destroy a launch — and drove parts-traceability reform.",
+    takeaway:"A multi-million-dollar rocket can be lost to a bracket. Test the small parts, not just the big systems.",
+    report:"https://www.spacex.com/"
+  },
+  {
+    id:"amos6", flight:"SpaceX AMOS-6 (pre-launch)", operator:"SpaceX", date:"2016-09-01", domain:"Spacecraft & rockets",
+    mfr:"SpaceX", model:"Falcon 9 FT", reg:"Falcon 9 (AMOS-6)", origin:"Cape Canaveral SLC-40", dest:"GTO (static-fire test)",
+    region:"North America", country:"United States", occupants:0, fatalities:0, survivors:0, ground:0,
+    phase:"Pre-launch / fueling", category:"Pad / fueling explosion", authority:"SpaceX / FAA", status:"Final", reportYear:2017,
+    tags:["COPV","solid oxygen","static fire","payload lost"],
+    summary:"During propellant loading for a routine pre-launch static fire, the second stage exploded on the pad, destroying the rocket and the AMOS-6 communications satellite. The pad was clear; no injuries.",
+    cause:"Solid oxygen accumulated between the carbon overwrap and the aluminium liner of a helium pressure vessel (COPV) submerged in the cold liquid-oxygen tank; under loading it ignited with the carbon fibre, bursting the vessel and the stage.",
+    factors:{technical:["Solid-oxygen entrapment in a helium COPV during fast, very cold loading","Carbon-fibre overwrap ignited by friction/buckling with solid oxygen"],organizational:["Loading procedures/temperatures not yet characterised for this failure mode"]},
+    actions:["Revised helium-loading procedures and COPV configuration","Warmer helium and changed loading sequence to prevent solid-oxygen formation","Later COPV redesign for crewed flights"],
+    significance:"A subtle cryogenic materials failure that reshaped how super-chilled propellant loading is done.",
+    takeaway:"New performance tricks (super-cooled propellant) create new failure modes. Characterise them before trusting them.",
+    report:"https://www.spacex.com/"
+  },
+  {
+    id:"antares", flight:"Antares Orb-3", operator:"Orbital Sciences / NASA", date:"2014-10-28", domain:"Spacecraft & rockets",
+    mfr:"Orbital Sciences", model:"Antares 130", reg:"Antares (Orb-3)", origin:"Wallops MARS Pad 0A", dest:"International Space Station (cargo)",
+    region:"North America", country:"United States", occupants:0, fatalities:0, survivors:0, ground:0,
+    phase:"Launch / ascent", category:"Launch vehicle failure", authority:"Orbital / NASA / NTSB", status:"Final", reportYear:2015,
+    tags:["turbopump failure","refurbished engine","fell back on pad","Cygnus"],
+    summary:"About 15 seconds after liftoff a first-stage engine failed; the Antares lost thrust, fell back and exploded on the pad, destroying its Cygnus cargo ship. No one was hurt but the pad was heavily damaged.",
+    cause:"A turbopump in one of the first-stage AJ26 engines (a refurbished 1960s-70s Soviet NK-33) failed, most likely from a manufacturing/wear defect in the pump, causing an explosion and loss of thrust.",
+    factors:{technical:["Turbopump failure in a refurbished decades-old engine","Limited margin/condition assurance on the legacy engines"],organizational:["Risk of flying refurbished heritage hardware not fully mitigated"]},
+    actions:["Antares re-engined with new RD-181 engines","Pad 0A repaired and rebuilt","Reassessment of using refurbished legacy propulsion"],
+    significance:"A cautionary tale on flying decades-old refurbished engines on a modern rocket.",
+    takeaway:"Heritage hardware is not automatically reliable hardware. Age and refurbishment carry their own risks.",
+    report:"https://www.nasa.gov/"
+  },
+  {
+    id:"protonm2013", flight:"Proton-M (2013)", operator:"Roscosmos", date:"2013-07-02", domain:"Spacecraft & rockets",
+    mfr:"Khrunichev", model:"Proton-M", reg:"Proton-M / Block DM-03", origin:"Baikonur Cosmodrome", dest:"MEO (3 GLONASS satellites)",
+    region:"Asia", country:"Kazakhstan (Baikonur)", occupants:0, fatalities:0, survivors:0, ground:0,
+    phase:"Launch / ascent", category:"Launch vehicle failure", authority:"Roscosmos commission", status:"Final", reportYear:2013,
+    tags:["sensors installed upside down","guidance","veered off","assembly error"],
+    summary:"Seconds after liftoff the Proton-M pitched over, veered and crashed near the pad in a spectacular fireball that was broadcast live. It was carrying three GLONASS navigation satellites; no one was hurt, but toxic propellant was spilled.",
+    cause:"Three angular-velocity (yaw) sensors had been installed rotated 180 degrees from their correct orientation, so the guidance system received inverted signals and commanded the rocket in the wrong direction immediately after launch.",
+    factors:{technical:["Critical guidance sensors force-fitted in the wrong orientation"],organizational:["Assembly quality control failed to catch the reversed sensors; parts not keyed against mis-installation"]},
+    actions:["Mandatory orientation keying/marking so sensors cannot be installed backwards","Stricter assembly inspection and acceptance for Proton","Broader Russian launch-quality review"],
+    significance:"A dramatic, fully preventable assembly error — a poster case for designing parts that cannot be fitted wrong.",
+    takeaway:"If a part can be installed backwards, eventually it will be. Design it so it physically cannot.",
+    report:"https://www.roscosmos.ru/"
+  },
+  {
+    id:"longmarch3b", flight:"Long March 3B (Intelsat 708)", operator:"China (CASC)", date:"1996-02-15", domain:"Spacecraft & rockets",
+    mfr:"CALT (China)", model:"Long March 3B", reg:"CZ-3B (Y1)", origin:"Xichang Satellite Centre", dest:"GTO (Intelsat 708)",
+    region:"Asia", country:"China", occupants:0, fatalities:0, survivors:0, ground:6,
+    phase:"Launch / ascent", category:"Launch vehicle failure", authority:"Chinese commission (CASC)", status:"Final", reportYear:1996,
+    tags:["guidance failure","ground impact","village","inertial platform"],
+    summary:"On its maiden flight the Long March 3B tilted over immediately after liftoff and struck a hillside near a village about 22 seconds later, destroying the Intelsat 708 satellite. Official figures cite 6 killed and dozens injured on the ground; the true toll is widely disputed.",
+    cause:"A fault in the inertial guidance platform (a failed component in the rate/position reference) caused the rocket to follow a wrong attitude command and pitch over into terrain shortly after launch.",
+    factors:{technical:["Inertial guidance platform component failure feeding wrong attitude data"],organizational:["Launch site proximity to inhabited areas amplified ground consequences"]},
+    actions:["Redesign/strengthening of the guidance inertial platform","Improved range-safety and launch-corridor risk management","Greater scrutiny of populated areas near Chinese launch sites"],
+    significance:"A rare launch failure with ground casualties, underscoring range-safety and population-exposure planning.",
+    takeaway:"A launch failure's worst harm can be on the ground. Where a rocket can fall is a safety decision.",
+    report:"https://www.cnsa.gov.cn/"
+  },
+  {
+    id:"starshipift1", flight:"Starship Integrated Flight Test 1", operator:"SpaceX", date:"2023-04-20", domain:"Spacecraft & rockets",
+    mfr:"SpaceX", model:"Starship / Super Heavy", reg:"Booster 7 / Ship 24", origin:"Starbase, Boca Chica (Texas)", dest:"Sub-orbital test (Pacific)",
+    region:"North America", country:"United States", occupants:0, fatalities:0, survivors:0, ground:0,
+    phase:"Test flight / ascent", category:"Launch vehicle failure", authority:"FAA mishap investigation", status:"Final", reportYear:2023,
+    tags:["multiple engines out","stage separation","flight termination","iterative testing"],
+    summary:"The first integrated flight of the world's largest rocket cleared the pad but lost several engines, failed to separate its stages, tumbled, and was destroyed by its flight-termination system about four minutes in. The launch mount was heavily damaged. It was an uncrewed development test.",
+    cause:"Multiple Raptor engine failures and a leak/fire in the booster degraded thrust and control; the vehicle could not initiate stage separation, lost attitude control, and the flight-termination system (after a delay) destroyed it. The pad lacked a flame deflector and was severely eroded.",
+    factors:{technical:["Multiple engine-out and a propulsion-bay fire/leak","Loss of thrust-vector control; failed stage separation","Slow flight-termination-system action"],organizational:["Early-development test flown to gather data ('test to failure')","No water-deluge flame deflector under the pad initially"]},
+    actions:["Added a water-deluge steel flame deflector and pad reinforcement","Hot-stage separation and engine/FTS improvements on later flights","FAA corrective-action set before return to flight"],
+    significance:"An example of modern iterative, 'fly-test-fix' rocket development where an explosive outcome still yields data.",
+    takeaway:"In hardware-rich, iterative development a failed test is planned learning — provided the lessons are captured and acted on.",
+    report:"https://www.faa.gov/space"
+  },
+  {
+    id:"slv3", flight:"ISRO SLV-3 (first flight)", operator:"ISRO", date:"1979-08-10", domain:"Spacecraft & rockets",
+    mfr:"ISRO", model:"SLV-3", reg:"SLV-3 E1", origin:"Sriharikota (SHAR)", dest:"Earth orbit (Rohini RS-1)",
+    region:"Asia", country:"India", occupants:0, fatalities:0, survivors:0, ground:0,
+    phase:"Launch / ascent", category:"Launch vehicle failure", authority:"ISRO Failure Analysis", status:"Final", reportYear:1979,
+    tags:["India first launcher","second stage","Kalam","learning from failure"],
+    summary:"India's first attempt to orbit a satellite failed when a second-stage control problem sent the SLV-3 and its Rohini payload into the Bay of Bengal. The project director was A.P.J. Abdul Kalam; the very next flight, a year later, succeeded and made India a spacefaring nation.",
+    cause:"A control/propulsion problem in the second stage (a leaking control component depleting the stage and causing loss of control) prevented the vehicle from achieving orbit, and it fell into the sea.",
+    factors:{technical:["Second-stage control-system propellant depletion / control loss"],organizational:["First-of-its-kind indigenous launcher with limited prior flight experience"]},
+    actions:["Rapid failure analysis and fixes applied within a year","SLV-3 E2 (1980) succeeded — India's first satellite in orbit","Foundational experience that led to the PSLV and GSLV families"],
+    significance:"A landmark Indian failure-then-triumph; Kalam's handling of it became a national lesson in resilience.",
+    takeaway:"As Kalam taught: a failure analysed honestly and fixed quickly is the fastest route to the next success.",
+    report:"https://www.isro.gov.in/"
+  },
+  {
+    id:"pslvd1", flight:"ISRO PSLV-D1 (first flight)", operator:"ISRO", date:"1993-09-20", domain:"Spacecraft & rockets",
+    mfr:"ISRO", model:"PSLV", reg:"PSLV-D1", origin:"Sriharikota (SHAR)", dest:"Sun-synchronous orbit (IRS-1E)",
+    region:"Asia", country:"India", occupants:0, fatalities:0, survivors:0, ground:0,
+    phase:"Launch / ascent", category:"Launch vehicle failure", authority:"ISRO Failure Analysis", status:"Final", reportYear:1993,
+    tags:["maiden flight","software/attitude error","stage separation","later workhorse"],
+    summary:"The maiden flight of what became ISRO's reliable workhorse failed: an attitude disturbance during a stage transition left the vehicle short of orbit and the IRS-1E satellite fell into the sea. The PSLV went on to a long record of success.",
+    cause:"A disturbance during second-to-third-stage separation, combined with an error in the on-board guidance/software handling of the event, caused the vehicle to lose the correct attitude and fail to reach orbit.",
+    factors:{technical:["Tip-off / attitude disturbance at stage separation","On-board software did not correctly counter the disturbance"],organizational:["First flight of a complex new four-stage vehicle"]},
+    actions:["Corrected the separation sequence and guidance software logic","PSLV proceeded to decades of highly reliable flights","Reinforced rigorous software verification for future ISRO vehicles"],
+    significance:"A reminder that even legendary, reliable rockets often stumble on their very first flight.",
+    takeaway:"A rough debut is not destiny. The PSLV's near-flawless later record began with this honest correction.",
+    report:"https://www.isro.gov.in/"
+  },
+  {
+    id:"chandrayaan2", flight:"Chandrayaan-2 (Vikram lander)", operator:"ISRO", date:"2019-09-06", domain:"Spacecraft & rockets",
+    mfr:"ISRO", model:"Vikram lunar lander", reg:"Vikram", origin:"Lunar orbit", dest:"Moon (south-pole region)",
+    region:"Moon", country:"India (ISRO)", occupants:0, fatalities:0, survivors:0, ground:0,
+    phase:"Descent / landing", category:"Lander / capsule descent failure", authority:"ISRO Failure Analysis Committee", status:"Final", reportYear:2019,
+    tags:["lunar lander","powered descent","throttle anomaly","Chandrayaan-3"],
+    summary:"India's first lunar-landing attempt deviated from its planned descent during the braking phase; contact was lost about 2 km above the surface and the Vikram lander crashed. The Chandrayaan-2 orbiter remained healthy, and lessons fed directly into the successful Chandrayaan-3 landing in 2023.",
+    cause:"During the powered braking descent the lander's deceleration deviated from the planned profile (a thrust/guidance dispersion the control software did not fully correct), causing it to depart the intended trajectory and impact harder and off-target.",
+    factors:{technical:["Descent velocity/attitude deviated beyond the corrected envelope during braking","Guidance/throttle handling of dispersions during the critical final phase"],organizational:["First-attempt soft-landing with limited margin in the final braking phase"]},
+    actions:["Refined descent guidance, software robustness and margins","Strengthened lander legs/structure and contingency logic","Applied directly to the successful Chandrayaan-3 soft landing (2023)"],
+    significance:"India's near-miss soft landing that, analysed and fixed, led straight to a historic 2023 lunar success.",
+    takeaway:"The last minutes of a landing are unforgiving. Chandrayaan-2's lessons are why Chandrayaan-3 succeeded.",
+    report:"https://www.isro.gov.in/"
+  },
+  {
+    id:"mco", flight:"Mars Climate Orbiter", operator:"NASA / JPL", date:"1999-09-23", domain:"Spacecraft & rockets",
+    mfr:"Lockheed Martin / NASA JPL", model:"Mars Climate Orbiter", reg:"MCO", origin:"Cape Canaveral (Dec 1998)", dest:"Mars orbit",
+    region:"Mars", country:"United States (NASA)", occupants:0, fatalities:0, survivors:0, ground:0,
+    phase:"Orbit insertion", category:"Spacecraft system failure", authority:"NASA JPL Mishap Board", status:"Final", reportYear:1999,
+    tags:["unit conversion","imperial vs metric","navigation","faster-better-cheaper"],
+    summary:"The orbiter was lost on arrival at Mars when it passed far too low through the atmosphere and was destroyed. The cause was a units mix-up — the most famous unit-conversion error in spaceflight.",
+    cause:"Ground software supplied by the contractor reported thruster impulse in pound-force-seconds (imperial) while the navigation software expected newton-seconds (metric). The unconverted values accumulated a trajectory error that put the orbiter ~170 km too low at Mars, where it broke up or skipped off the atmosphere.",
+    factors:{technical:["Imperial vs metric unit mismatch between two software systems","Trajectory error went undetected over months of cruise"],organizational:["Inadequate end-to-end checks and navigation cross-validation under a lean programme"]},
+    actions:["Standardised units (SI) and added interface/units verification","Independent navigation verification and end-to-end data checks","Reformed the 'faster-better-cheaper' risk approach"],
+    significance:"The canonical units-error disaster — taught in every engineering classroom (and the spaceflight cousin of the Gimli Glider).",
+    takeaway:"Define and check your units at every interface. A pound mistaken for a newton can lose a spacecraft.",
+    report:"https://www.nasa.gov/"
+  },
+  {
+    id:"mpl", flight:"Mars Polar Lander", operator:"NASA / JPL", date:"1999-12-03", domain:"Spacecraft & rockets",
+    mfr:"Lockheed Martin / NASA JPL", model:"Mars Polar Lander", reg:"MPL", origin:"Cape Canaveral (Jan 1999)", dest:"Mars (south polar region)",
+    region:"Mars", country:"United States (NASA)", occupants:0, fatalities:0, survivors:0, ground:0,
+    phase:"Descent / landing", category:"Lander / capsule descent failure", authority:"NASA JPL Review Board", status:"Final", reportYear:2000,
+    tags:["premature engine cutoff","sensor logic","software","no telemetry"],
+    summary:"Contact was never regained after the lander began its descent to the Martian south pole. With no descent telemetry, the board identified the most probable cause from analysis and testing.",
+    cause:"Most probably, spurious signals generated when the landing legs deployed were interpreted by the software as touchdown, shutting the descent engines off prematurely at about 40 m altitude, so the lander fell and was destroyed.",
+    factors:{technical:["Leg-deployment vibration produced false touchdown signals","Software accepted the transient as a real landing and cut the engines early"],organizational:["The specific transient was not caught in testing; descent telemetry not transmitted"]},
+    actions:["Software logic to require persistent, validated touchdown signals","Mandatory transmission of descent telemetry on later landers","More rigorous descent-and-landing test campaigns"],
+    significance:"A software-logic failure during the riskiest minutes of a mission, sharpening descent-and-landing verification.",
+    takeaway:"A momentary glitch must not be mistaken for a real event. Validate critical triggers before acting on them.",
+    report:"https://www.nasa.gov/"
+  },
+  {
+    id:"genesis", flight:"Genesis sample return", operator:"NASA", date:"2004-09-08", domain:"Spacecraft & rockets",
+    mfr:"Lockheed Martin / NASA", model:"Genesis sample-return capsule", reg:"Genesis SRC", origin:"Solar orbit (sample return)", dest:"Utah (UTTR)",
+    region:"North America", country:"United States", occupants:0, fatalities:0, survivors:0, ground:0,
+    phase:"Re-entry / landing", category:"Lander / capsule descent failure", authority:"NASA Mishap Investigation Board", status:"Final", reportYear:2005,
+    tags:["parachute failed","G-switch installed backwards","design drawing error","sample return"],
+    summary:"The capsule carrying solar-wind samples re-entered as planned but its parachute never deployed; it slammed into the Utah desert at around 310 km/h. Some samples were salvaged from the wreck.",
+    cause:"The gravity-sensing switches that were meant to trigger parachute deployment had been installed backwards because the design drawings specified the orientation incorrectly, so deceleration was never sensed and the chutes were never commanded.",
+    factors:{technical:["G-switch sensors installed in the wrong orientation (drawing error)","No deceleration sensed; drogue/parafoil never deployed"],organizational:["Design-review and test process did not catch the reversed sensor orientation"]},
+    actions:["Stronger design-review and orientation verification of critical sensors","Independent checks of inherited/heritage designs","Renewed emphasis on testing the full deployment chain"],
+    significance:"Another 'installed backwards' failure (cf. the Proton sensors) that reinforced design-review rigour.",
+    takeaway:"A wrong drawing propagates into hardware. Verify critical orientations against physics, not just paperwork.",
+    report:"https://www.nasa.gov/"
+  },
+  {
+    id:"beresheet", flight:"Beresheet (lunar lander)", operator:"SpaceIL / IAI", date:"2019-04-11", domain:"Spacecraft & rockets",
+    mfr:"SpaceIL / IAI", model:"Beresheet lunar lander", reg:"Beresheet", origin:"Lunar orbit", dest:"Moon (Mare Serenitatis)",
+    region:"Moon", country:"Israel", occupants:0, fatalities:0, survivors:0, ground:0,
+    phase:"Descent / landing", category:"Lander / capsule descent failure", authority:"SpaceIL / IAI inquiry", status:"Final", reportYear:2019,
+    tags:["private lunar lander","main engine cutoff","gyro fault","low-cost"],
+    summary:"The first privately funded Moon-landing attempt was descending well until its main engine cut out during the final braking; by the time it restarted, the lander was too low and crashed. It came remarkably close on a small budget.",
+    cause:"A chain beginning with an inertial-measurement (gyro) anomaly and a manual command sequence led to the main engine shutting down during descent; the engine could not be restarted in time to arrest the fall before impact.",
+    factors:{technical:["IMU/gyro anomaly during descent","Main engine cut off and was not restarted before impact"],organizational:["Low-cost, fast-paced programme with limited redundancy/margin"]},
+    actions:["Lessons fed into a follow-on lander effort and the wider low-cost-lander community","Emphasis on engine-restart robustness and descent fault tolerance","Highlighted the risks and promise of low-cost lunar landers"],
+    significance:"A near-success that helped open the private/low-cost lunar-lander era and its hard lessons.",
+    takeaway:"Low cost can buy access but not margin. The descent phase punishes any single-point weakness.",
+    report:"https://www.spaceil.com/"
+  },
+  {
+    id:"schiaparelli", flight:"Schiaparelli (ExoMars EDM)", operator:"ESA / Roscosmos", date:"2016-10-19", domain:"Spacecraft & rockets",
+    mfr:"ESA / Thales Alenia", model:"Schiaparelli EDM lander", reg:"Schiaparelli", origin:"Mars approach", dest:"Meridiani Planum, Mars",
+    region:"Mars", country:"Europe (ESA)", occupants:0, fatalities:0, survivors:0, ground:0,
+    phase:"Descent / landing", category:"Lander / capsule descent failure", authority:"ESA Inquiry Board", status:"Final", reportYear:2017,
+    tags:["IMU saturation","negative altitude","software","parachute jettison"],
+    summary:"ESA's Mars-landing demonstrator descended under parachute but then jettisoned the chute, briefly fired and cut its thrusters, and free-fell to the surface. The orbiter relaying its data survived; the demonstrator was destroyed.",
+    cause:"During descent the inertial measurement unit saturated (the sensed rotation exceeded its maximum). The bad attitude data fed the navigation a wrong, even negative, altitude estimate, so the software 'thought' it had already landed — jettisoning the parachute and shutting off the thrusters far too high.",
+    factors:{technical:["IMU saturation produced corrupted attitude/altitude data","Navigation computed a negative altitude and ended the descent early"],organizational:["Insufficient handling/testing of the IMU-saturation case in software"]},
+    actions:["Software fixes to bound/handle sensor saturation gracefully","More thorough descent-software testing for off-nominal sensor data","Lessons applied to subsequent Mars-landing designs"],
+    significance:"A software/sensor-handling failure echoing Mars Polar Lander — bad data trusted at the worst moment.",
+    takeaway:"Sensors have limits; software must expect them. A saturated input must never be read as the truth.",
+    report:"https://www.esa.int/"
+  },
+
+  /* ===================== HYPERSONIC / EXPERIMENTAL ===================== */
+  {
+    id:"x15flt191", flight:"X-15 Flight 3-65-97 (Michael Adams)", operator:"USAF / NASA", date:"1967-11-15", domain:"Hypersonic / experimental",
+    mfr:"North American Aviation", model:"X-15 (rocket-plane)", reg:"X-15-3 (56-6672)", origin:"B-52 air launch, Edwards", dest:"Edwards AFB",
+    region:"North America", country:"United States", occupants:1, fatalities:1, survivors:0, ground:0,
+    phase:"Hypersonic flight / re-entry", category:"Hypersonic test failure", authority:"USAF / NASA accident board", status:"Final", reportYear:1968,
+    tags:["X-15","hypersonic spin","vertigo","adaptive control"],
+    summary:"On the only fatal X-15 flight, pilot Michael Adams climbed above 80 km (earning astronaut wings) but, affected by an electrical disturbance and likely vertigo, let the rocket-plane enter a hypersonic spin. During the violent re-entry it broke apart under aerodynamic loads at about Mach 4.",
+    cause:"An electrical disturbance degraded instruments/control and, with probable spatial disorientation (vertigo), the aircraft yawed into a Mach-5 spin; the adaptive flight-control system then drove oscillations during re-entry, and the airframe failed under high aerodynamic loads.",
+    factors:{technical:["Electrical disturbance affecting displays/control","Adaptive flight-control system aggravated re-entry oscillations"],human:["Probable vertigo/disorientation; heading drift not corrected"],environmental:["Extreme hypersonic re-entry loads with little margin"]},
+    actions:["Reviews of cockpit displays, disorientation cues and control-system behaviour","Lessons for hypersonic flight-control and pilot-workload design","Contributed to later research-vehicle safety practices"],
+    significance:"The X-15 programme's only fatality — a key early lesson in hypersonic flight control and human factors.",
+    takeaway:"At hypersonic speed there is no time to recover a lost picture. Disorientation must be designed against.",
+    report:"https://www.nasa.gov/"
+  },
+  {
+    id:"x43a1", flight:"NASA X-43A (Hyper-X) Flight 1", operator:"NASA", date:"2001-06-02", domain:"Hypersonic / experimental",
+    mfr:"NASA / MicroCraft", model:"X-43A (Hyper-X)", reg:"X-43A (Flight 1)", origin:"B-52 / Pegasus, Point Mugu", dest:"Pacific test range",
+    region:"North America", country:"United States", occupants:0, fatalities:0, survivors:0, ground:0,
+    phase:"Boost / test flight", category:"Hypersonic test failure", authority:"NASA Mishap Investigation Board", status:"Final", reportYear:2003,
+    tags:["scramjet","Pegasus booster","control loss","range safety"],
+    summary:"The first flight of NASA's uncrewed scramjet demonstrator ended seconds after release when its Pegasus booster went out of control; the stack was destroyed by range safety before the scramjet could be tested. Later X-43A flights (2004) succeeded at Mach 6.8 and 9.6.",
+    cause:"The modified Pegasus booster lost control shortly after launch because its aerodynamics and control-system response in this configuration were inadequately modelled; control margins were exceeded and the vehicle was terminated.",
+    factors:{technical:["Inaccurate aerodynamic/control modelling of the modified booster","Control authority/margins exceeded after release"],organizational:["Simulation fidelity insufficient for the unusual launch configuration"]},
+    actions:["Improved booster aerodynamic modelling and control margins","Successful return-to-flight at Mach 6.8 (Mar 2004) and Mach 9.6 (Nov 2004)","Validated scramjet flight and informed later hypersonic programmes"],
+    significance:"A setback that, once fixed, produced the first sustained scramjet-powered hypersonic flights — landmark aerospace results.",
+    takeaway:"Your hypersonic vehicle is only as good as the model behind it. Validate the boost phase, not just the science.",
+    report:"https://www.nasa.gov/"
+  },
+  {
+    id:"x51a", flight:"Boeing X-51A Waverider (Flight 3)", operator:"USAF / DARPA", date:"2012-08-14", domain:"Hypersonic / experimental",
+    mfr:"Boeing", model:"X-51A Waverider", reg:"X-51A (Flight 3)", origin:"B-52 air launch, Point Mugu", dest:"Pacific test range",
+    region:"North America", country:"United States", occupants:0, fatalities:0, survivors:0, ground:0,
+    phase:"Boost / test flight", category:"Hypersonic test failure", authority:"USAF / AFRL", status:"Final", reportYear:2012,
+    tags:["scramjet","fin failure","inlet unstart","Waverider"],
+    summary:"The uncrewed X-51A scramjet demonstrator was lost about 15 seconds into its third flight when a control fin failed during boost, before the scramjet could light. An earlier flight had suffered an inlet 'unstart'. The final 2013 flight succeeded with a Mach-5+ sustained scramjet burn.",
+    cause:"A control fin unlocked/failed during the boost phase, causing loss of control before scramjet ignition; a prior flight had instead suffered an inlet unstart (the supersonic shock structure collapsing) that prevented sustained thrust.",
+    factors:{technical:["Control-fin actuator/lock failure during boost","(Earlier flight) inlet unstart disrupting the scramjet airflow"],organizational:["Hard-to-test transient conditions of air-launched hypersonic flight"]},
+    actions:["Fin/control-system fixes for the final flight","Inlet and engine-start improvements","Final 2013 flight achieved a sustained Mach 5+ scramjet burn"],
+    significance:"Part of the scramjet research that ultimately demonstrated sustained airbreathing hypersonic flight.",
+    takeaway:"Hypersonic propulsion lives or dies on the inlet and control surfaces. The 'simple' boost phase is rarely simple.",
+    report:"https://www.af.mil/"
+  },
+  {
+    id:"htv2", flight:"DARPA Falcon HTV-2 (Flight 2)", operator:"DARPA / USAF", date:"2011-08-11", domain:"Hypersonic / experimental",
+    mfr:"Lockheed Martin / DARPA", model:"HTV-2 (hypersonic glider)", reg:"Falcon HTV-2", origin:"Vandenberg (Minotaur IV)", dest:"Pacific glide to Kwajalein",
+    region:"North America", country:"United States", occupants:0, fatalities:0, survivors:0, ground:0,
+    phase:"Hypersonic glide", category:"Hypersonic test failure", authority:"DARPA / USAF", status:"Final", reportYear:2012,
+    tags:["Mach 20","boost-glide","aeroshell","autonomous termination"],
+    summary:"The uncrewed boost-glide vehicle reached roughly Mach 20 but lost control during its hypersonic glide and triggered its own flight-termination, ending the test. Both HTV-2 flights (2010 and 2011) failed during the glide phase.",
+    cause:"At about Mach 20 the vehicle experienced aerodynamic disturbances — on the second flight, portions of the aeroshell skin peeled away, creating asymmetries beyond the flight-control system's authority — so the vehicle autonomously terminated the flight.",
+    factors:{technical:["Aeroshell/thermal-protection skin shedding at extreme speed","Aerodynamic upsets exceeding control authority at ~Mach 20","Severe aerothermal environment poorly characterised by ground tools"]},
+    actions:["Data used to improve hypersonic aerothermal and materials models","Informed later boost-glide and hypersonic-weapon programmes","Refined autonomous flight-termination for hypersonic vehicles"],
+    significance:"Showed how brutal sustained Mach-20 flight is — and how much it stretches materials, modelling and control.",
+    takeaway:"At Mach 20 the air is the enemy. Aerothermal effects you cannot fully simulate will find every weakness.",
+    report:"https://www.darpa.mil/"
+  },
+
+  /* ===================== SUPERSONIC / EXPERIMENTAL ===================== */
+  {
+    id:"ss2enterprise", flight:"SpaceShipTwo VSS Enterprise (PF04)", operator:"Virgin Galactic / Scaled Composites", date:"2014-10-31", domain:"Supersonic / experimental",
+    mfr:"Scaled Composites", model:"SpaceShipTwo", reg:"VSS Enterprise (N339SS)", origin:"Mojave (WhiteKnightTwo launch)", dest:"Suborbital test",
+    region:"North America", country:"United States", occupants:2, fatalities:1, survivors:1, ground:0,
+    phase:"Powered test flight", category:"Supersonic test accident", authority:"NTSB (USA)", status:"Final", reportYear:2015,
+    tags:["feathering system","early unlock","human factors","suborbital"],
+    summary:"During a rocket-powered test the co-pilot unlocked the vehicle's 'feathering' re-entry system too early; aerodynamic forces then deployed it during the transonic boost and the spaceplane broke apart. Co-pilot Michael Alsbury was killed; pilot Peter Siebold parachuted to survival.",
+    cause:"The feathering tail system was unlocked prematurely (around Mach 0.9 instead of after the high-load phase). With no design safeguard against early unlocking, aerodynamic loads deployed the feather and the vehicle disintegrated.",
+    factors:{human:["Co-pilot unlocked the feather mechanism too early under high workload"],technical:["No mechanical inhibit to prevent feather unlock during the dangerous transonic phase"],organizational:["Human-factors/single-point-failure risks not adequately mitigated by the builder"]},
+    actions:["Added a mechanical inhibit preventing early feather unlocking","FAA commercial-spaceflight human-factors and design-safeguard guidance","Reinforced single-pilot-error protection in vehicle design"],
+    significance:"A defining commercial-spaceflight accident on designing out single human-error failure paths.",
+    takeaway:"Don't rely on a human never making one mistake at the wrong moment. Design the safeguard into the machine.",
+    report:"https://www.ntsb.gov/"
+  },
+  {
+    id:"xb70", flight:"XB-70 Valkyrie mid-air (1966)", operator:"USAF / NASA", date:"1966-06-08", domain:"Supersonic / experimental",
+    mfr:"North American Aviation", model:"XB-70 Valkyrie", reg:"XB-70A (AV-2, 62-0207)", origin:"Edwards AFB", dest:"Edwards (test/photo flight)",
+    region:"North America", country:"United States", occupants:3, fatalities:2, survivors:1, ground:0,
+    phase:"Cruise (formation)", category:"Supersonic test accident", authority:"USAF accident board", status:"Final", reportYear:1966,
+    tags:["mid-air collision","formation flying","wake vortex","photo op"],
+    summary:"During a non-essential publicity photo formation, an F-104 chase plane was caught in the Mach-3 bomber's wingtip vortex, collided with the XB-70 and both crashed. NASA pilot Joe Walker and the XB-70 co-pilot Carl Cross died; pilot Al White ejected and survived.",
+    cause:"The F-104 flew too close to the XB-70's downturned wingtip, was rolled by the powerful wingtip vortex into the bomber's tail, and the collision destroyed both aircraft. The flight itself was a PR photo op of questionable necessity.",
+    factors:{human:["Close-formation flying within the bomber's vortex field"],organizational:["A non-mission publicity flight accepted significant formation risk"],technical:["Powerful wingtip vortices from the large delta wing"]},
+    actions:["Tighter rules and necessity tests for formation and photo flights","Greater respect for wake-vortex hazards near large aircraft","Reduced non-essential risk exposure of one-of-a-kind research aircraft"],
+    significance:"A costly reminder that 'non-mission' flights carry real risk — and that wake vortices are deadly up close.",
+    takeaway:"If a flight isn't necessary, its risk isn't either. Don't lose people and prototypes to a photo shoot.",
+    report:"https://www.nasa.gov/"
+  },
+  {
+    id:"sr71weaver", flight:"SR-71 Mach-3 breakup (Bill Weaver)", operator:"Lockheed / USAF", date:"1966-01-25", domain:"Supersonic / experimental",
+    mfr:"Lockheed", model:"SR-71 Blackbird", reg:"SR-71A (61-7952)", origin:"Edwards / test range", dest:"(flight test)",
+    region:"North America", country:"United States", occupants:2, fatalities:1, survivors:1, ground:0,
+    phase:"Supersonic cruise (Mach 3+)", category:"Supersonic test accident", authority:"Lockheed / USAF", status:"Final", reportYear:1966,
+    tags:["inlet unstart","pitch-up","Mach 3.2","extreme survival"],
+    summary:"At Mach 3.18 the SR-71 experienced an inlet 'unstart' during a test manoeuvre and pitched up so violently that it disintegrated. Pilot Bill Weaver was thrown clear and survived; reconnaissance systems officer Jim Zwayer was killed by the g-forces.",
+    cause:"With the centre of gravity well aft for the test, an engine-inlet unstart at Mach 3.18 produced an uncontrollable pitch-up that exceeded the airframe's structural limits, breaking the aircraft apart almost instantly.",
+    factors:{technical:["Inlet unstart at high Mach causing a violent yaw/pitch excursion","Aft centre-of-gravity reducing pitch stability margin"],human:["Test condition deliberately reduced stability margins"]},
+    actions:["Inlet-control improvements to prevent/recover unstarts","Centre-of-gravity and test-condition limits reviewed","Pressure-suit and escape-system performance validated at extreme speed"],
+    significance:"A near-miraculous high-Mach survival that drove inlet-control and high-speed-escape understanding.",
+    takeaway:"At the edge of the envelope, small margins vanish fast. Respect stability limits at extreme speed.",
+    report:"https://www.nasa.gov/"
+  },
+  {
+    id:"bellx2", flight:"Bell X-2 (Mel Apt)", operator:"USAF / NACA", date:"1956-09-27", domain:"Supersonic / experimental",
+    mfr:"Bell Aircraft", model:"X-2 Starbuster", reg:"Bell X-2 (46-674)", origin:"B-50 air launch, Edwards", dest:"Edwards AFB",
+    region:"North America", country:"United States", occupants:1, fatalities:1, survivors:0, ground:0,
+    phase:"Supersonic flight", category:"Supersonic test accident", authority:"USAF / NACA", status:"Final", reportYear:1957,
+    tags:["inertia coupling","Mach 3","first Mach 3","loss of control"],
+    summary:"Captain Mel Apt became the first person to exceed Mach 3, but moments later, turning back toward base, the X-2 departed controlled flight due to inertia coupling and could not be recovered. He was killed.",
+    cause:"Shortly after reaching Mach 3.2, a relatively sharp turn at high speed triggered 'inertia (roll) coupling' — the aircraft's roll, pitch and yaw motions coupled and diverged — and the X-2 tumbled out of control beyond recovery.",
+    factors:{technical:["Inertia coupling at high speed/altitude in a slender, high-mass aircraft","Marginal control authority and stability at the extreme condition"],human:["A high-rate manoeuvre initiated near the dangerous regime"]},
+    actions:["Research into inertia coupling shaped later high-speed aircraft design","Stability-augmentation and control-system development for supersonic flight","Informed the X-15 and Century-series fighter designs"],
+    significance:"A foundational supersonic-research loss that advanced understanding of high-speed stability and coupling.",
+    takeaway:"Speed records mean nothing without control. Inertia coupling taught designers to engineer high-speed stability.",
+    report:"https://www.nasa.gov/"
   }
 ];
 
@@ -1179,7 +1649,18 @@ const DOCNOTES={
   uberlingen:"The TCAS-vs-ATC conflict and its aftermath are widely studied, including the controller tragedy.",
   mh17:"Use authoritative DSB-based coverage; the conflict-zone context attracts disinformation.",
   qantas32:"Captain de Crespigny's account of managing the A380 systems cascade is a renowned CRM study.",
-  aa965:"A landmark CFIT/automation case credited with accelerating EGPWS adoption."
+  aa965:"A landmark CFIT/automation case credited with accelerating EGPWS adoption.",
+  challenger:"The Rogers Commission and Feynman's O-ring demonstration are extensively documented.",
+  columbia:"The CAIB investigation and the foam-strike physics are well covered; honour Kalpana Chawla's legacy.",
+  apollo13:"Dramatised in the film 'Apollo 13' and covered in detail by NASA histories.",
+  apollo1:"A pivotal, sobering NASA history; many documentaries cover the fire and the hatch redesign.",
+  ariane501:"A staple software-engineering case study taught worldwide.",
+  mco:"The metric/imperial 'lost in conversion' case is a classic engineering lesson.",
+  chandrayaan2:"Widely covered in India; pairs naturally with the Chandrayaan-3 (2023) success.",
+  slv3:"Tied to Dr. A.P.J. Abdul Kalam's story of turning failure into India's first orbital success.",
+  x15flt191:"Covered in X-15 programme histories; Michael Adams was posthumously awarded astronaut wings.",
+  ss2enterprise:"The NTSB findings on the early feather unlock are the authoritative source.",
+  starshipift1:"SpaceX iterative-development coverage; watch the pad-damage and FTS analysis."
 };
 
 /* ---- Glossary ---- */
@@ -1213,7 +1694,21 @@ const GLOSSARY=[
   ["Swiss-cheese model","Reason model","The idea that accidents occur when holes in multiple layers of defence momentarily align."],
   ["Accredited representative","—","An official from another involved State (operator, manufacturer, etc.) entitled to take part in an Annex 13 investigation."],
   ["NTSB / BEA / AAIB","Authorities","National investigation bodies: USA (NTSB), France (BEA), UK (AAIB); others include JTSB (Japan), TSB (Canada), KNKT (Indonesia)."],
-  ["Black box","—","Colloquial term for the CVR and FDR. They are painted bright orange for visibility in wreckage, not black."]
+  ["Black box","—","Colloquial term for the CVR and FDR. They are painted bright orange for visibility in wreckage, not black."],
+  ["Max-Q","—","The point of maximum aerodynamic pressure on a rocket during ascent — a structurally critical moment."],
+  ["RUD","Rapid Unscheduled Disassembly","Engineers' wry term for a rocket or vehicle blowing up / breaking apart."],
+  ["FTS","Flight Termination System","A system that destroys a launch vehicle if it goes off course, to protect people on the ground."],
+  ["COPV","Composite Overwrapped Pressure Vessel","A lightweight high-pressure tank (e.g. for helium); COPV failures caused the SpaceX CRS-7 and AMOS-6 losses."],
+  ["RCC","Reinforced Carbon-Carbon","Heat-shield material on the Shuttle's wing leading edges; a breached RCC panel doomed Columbia."],
+  ["Abort / LES","Launch Escape System","A system that pulls/pushes a crew capsule away from a failing rocket — it saved the Soyuz MS-10 crew."],
+  ["Inlet unstart","—","Sudden collapse of the shockwave system in a supersonic/hypersonic engine inlet, causing thrust/control upset (SR-71, X-51)."],
+  ["Inertia coupling","Roll coupling","At high speed, an aircraft's roll, pitch and yaw motions couple and can diverge into loss of control (Bell X-2)."],
+  ["Scramjet","Supersonic-combustion ramjet","An airbreathing engine that burns fuel in supersonic airflow, enabling sustained hypersonic flight (X-43A, X-51A)."],
+  ["Boost-glide","—","A vehicle boosted by a rocket then gliding unpowered at hypersonic speed (e.g. DARPA HTV-2)."],
+  ["Hypersonic","—","Speeds at or above about Mach 5, where intense aerothermal heating dominates the vehicle's design."],
+  ["Re-entry","—","Return of a spacecraft into the atmosphere, where it must survive extreme heating and deceleration."],
+  ["Mishap Investigation Board","MIB","The spaceflight equivalent of an accident board (NASA/ESA/etc.) — prevention-focused, like ICAO Annex 13."],
+  ["Normalization of deviance","—","When a once-unacceptable anomaly becomes accepted because 'it hasn't caused a problem yet' (Challenger, Columbia)."]
 ];
 
 /* ---- Recommended channels / series ---- */
@@ -1223,7 +1718,10 @@ const CHANNELS=[
   ["NTSB (official)","The U.S. National Transportation Safety Board's own channel: board meetings, animations and safety material.","NTSB official channel aviation"],
   ["Green Dot Aviation","Clear, well-sourced accident documentaries with timelines and ATC audio.","Green Dot Aviation"],
   ["Disaster Breakdown","Accessible, report-based breakdowns of accidents and their safety outcomes.","Disaster Breakdown aviation"],
-  ["TheFlightChannel","Flight-simulator reconstructions with FDR-based animations and ATC transcripts.","TheFlightChannel accident reconstruction"]
+  ["TheFlightChannel","Flight-simulator reconstructions with FDR-based animations and ATC transcripts.","TheFlightChannel accident reconstruction"],
+  ["Scott Manley","Clear, technically grounded explainers of rocket and spacecraft failures and orbital mechanics.","Scott Manley rocket failure explained"],
+  ["NASA (official)","NASA's own channel — mission coverage, history (Apollo 1, Challenger, Columbia) and engineering material.","NASA official channel"],
+  ["Primal Space / spaceflight docs","Accessible documentaries on launch-vehicle and spacecraft accidents and their fixes.","spacecraft accident documentary"]
 ];
 
 /* ============================================================
@@ -1231,7 +1729,8 @@ const CHANNELS=[
    ============================================================ */
 const $=s=>document.querySelector(s);
 const grid=$("#grid"), searchEl=$("#search");
-const state={q:"",mfr:"",region:"",cat:"",auth:"",phase:"",status:"",decade:"",sort:"recent"};
+const state={q:"",domain:"",mfr:"",region:"",cat:"",auth:"",phase:"",status:"",decade:"",sort:"recent"};
+const dom=d=>d.domain||"Aircraft";
 const FAC_LABEL={human:"Human factors",technical:"Technical / mechanical",organizational:"Organizational / systemic",environmental:"Environmental / weather"};
 const ACCENT={
   "Structural failure":"#39d0ff","Runway collision":"#ff5d6c","Sabotage / security":"#ff5d6c","Engine failure":"#ffcf2e",
@@ -1241,7 +1740,9 @@ const ACCENT={
   "Runway excursion":"#ffcf2e","Bird strike / infrastructure":"#36e29a","Loss of power on takeoff":"#ffcf2e",
   "Controlled flight into terrain (CFIT)":"#ff5d6c","Mid-air collision":"#ff5d6c","Fuel exhaustion / starvation":"#ffcf2e",
   "Volcanic ash":"#bb8cff","Cargo door failure":"#39d0ff","Shoot-down (hostile action)":"#ff5d6c","Flight-control failure":"#39d0ff",
-  "Air-data / instrument failure":"#bb8cff","Fuel contamination":"#ffcf2e","Hydraulic / systems failure":"#39d0ff"
+  "Air-data / instrument failure":"#bb8cff","Fuel contamination":"#ffcf2e","Hydraulic / systems failure":"#39d0ff",
+  "Launch vehicle failure":"#ff8c3a","Pad / fueling explosion":"#ff5d6c","Spacecraft fire":"#ff6a00","Spacecraft re-entry failure":"#ff5d6c",
+  "Lander / capsule descent failure":"#bb8cff","Spacecraft system failure":"#39d0ff","Hypersonic test failure":"#36e29a","Supersonic test accident":"#36e29a"
 };
 const CAT_DESC={
   "Structural failure":"Airframe / pressure-vessel breakup","Runway collision":"Aircraft collide on the runway","Sabotage / security":"Deliberate external act (e.g. bomb)",
@@ -1252,7 +1753,9 @@ const CAT_DESC={
   "Runway excursion":"Overrun / veer-off the runway","Bird strike / infrastructure":"Wildlife + airport structure","Loss of power on takeoff":"Thrust loss during initial climb",
   "Controlled flight into terrain (CFIT)":"Airworthy aircraft flown into terrain","Mid-air collision":"Two aircraft collide in flight","Fuel exhaustion / starvation":"Engines starved of usable fuel",
   "Volcanic ash":"Ash ingestion / engine flameout","Cargo door failure":"Door loss → decompression","Shoot-down (hostile action)":"Destroyed by a hostile weapon","Flight-control failure":"Control-system mechanical failure",
-  "Air-data / instrument failure":"Blocked pitot/static → false data","Fuel contamination":"Contaminated fuel disrupts engines","Hydraulic / systems failure":"Loss of hydraulics / key systems"
+  "Air-data / instrument failure":"Blocked pitot/static → false data","Fuel contamination":"Contaminated fuel disrupts engines","Hydraulic / systems failure":"Loss of hydraulics / key systems",
+  "Launch vehicle failure":"Rocket fails during ascent / abort","Pad / fueling explosion":"Explosion on pad or while fuelling","Spacecraft fire":"Fire aboard a spacecraft","Spacecraft re-entry failure":"Failure during return / re-entry",
+  "Lander / capsule descent failure":"Crash during landing / descent","Spacecraft system failure":"Critical system / navigation failure","Hypersonic test failure":"Hypersonic vehicle test loss","Supersonic test accident":"Supersonic research vehicle loss"
 };
 function ytSearch(q){return "https://www.youtube.com/results?search_query="+encodeURIComponent(q);}
 function uniq(fn){return [...new Set(DATA.map(fn))].sort();}
@@ -1262,7 +1765,8 @@ function fmt(n){return n.toLocaleString("en-US");}
 /* ---- Filters ---- */
 function buildFilters(){
   const fill=(id,opts,label)=>{$(id).innerHTML=`<option value="">${label}</option>`+opts.map(o=>`<option value="${o}">${o}</option>`).join("");};
-  fill("#f-mfr",uniq(d=>d.mfr),"All manufacturers");
+  fill("#f-domain",uniq(dom),"All domains");
+  fill("#f-mfr",uniq(d=>d.mfr),"All manufacturers / agencies");
   fill("#f-region",uniq(d=>d.region),"All regions");
   fill("#f-cat",uniq(d=>d.category),"All categories");
   fill("#f-auth",uniq(d=>d.authority),"All authorities");
@@ -1271,6 +1775,7 @@ function buildFilters(){
   fill("#f-decade",[...new Set(DATA.map(decadeOf))].sort(),"All decades");
 }
 function matches(d){
+  if(state.domain&&dom(d)!==state.domain)return false;
   if(state.mfr&&d.mfr!==state.mfr)return false;
   if(state.region&&d.region!==state.region)return false;
   if(state.cat&&d.category!==state.cat)return false;
@@ -1279,7 +1784,7 @@ function matches(d){
   if(state.status&&d.status!==state.status)return false;
   if(state.decade&&decadeOf(d)!==state.decade)return false;
   if(state.q){
-    const hay=[d.flight,d.operator,d.mfr,d.model,d.reg,d.origin,d.dest,d.region,d.country,d.category,d.authority,d.phase,d.summary,d.cause,(d.tags||[]).join(" "),d.date].join(" ").toLowerCase();
+    const hay=[d.flight,d.operator,dom(d),d.mfr,d.model,d.reg,d.origin,d.dest,d.region,d.country,d.category,d.authority,d.phase,d.summary,d.cause,(d.tags||[]).join(" "),d.date].join(" ").toLowerCase();
     return state.q.toLowerCase().split(/\s+/).every(t=>hay.includes(t));
   }
   return true;
@@ -1303,7 +1808,7 @@ function render(){
   const decs={};list.forEach(d=>{const k=decadeOf(d);decs[k]=(decs[k]||0)+1;});
   const max=Math.max(1,...Object.values(decs));
   $("#decadeBars").innerHTML=Object.keys(decs).sort().map(k=>`<div class="barrow"><span class="bl">${k}</span><span class="bartrack"><span class="barfill" style="width:${decs[k]/max*100}%"></span></span><span class="bn">${decs[k]}</span></div>`).join("")||`<div style="color:var(--txt-faint);font-size:12px">No cases match.</div>`;
-  const chips=[];const labelMap={mfr:"Mfr",region:"Region",cat:"Category",auth:"Authority",phase:"Phase",status:"Status",decade:"Decade",q:"Search"};
+  const chips=[];const labelMap={domain:"Domain",mfr:"Mfr/agency",region:"Region",cat:"Category",auth:"Authority",phase:"Phase",status:"Status",decade:"Decade",q:"Search"};
   Object.keys(labelMap).forEach(k=>{if(state[k])chips.push(`<span class="chip">${labelMap[k]}: ${state[k]}<button data-clear="${k}">×</button></span>`);});
   $("#activeChips").innerHTML=chips.join("");
   if(!list.length){grid.innerHTML=`<div class="empty" style="grid-column:1/-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><div>No investigations match your search or filters.</div></div>`;return;}
@@ -1313,7 +1818,7 @@ function render(){
       <div class="top"><div><div class="flight">${d.flight}</div><h4>${d.origin.split(" (")[0]} → ${d.dest.split(" (")[0]}</h4></div>
         <div style="text-align:right"><div class="date">${d.date}</div><div class="st ${d.status}" style="margin-top:6px;display:inline-block">${d.status}</div></div></div>
       <div class="ac"><b>${d.mfr} ${d.model}</b> · ${d.reg} · ${d.country}</div>
-      <div class="badges"><span class="badge cat">${d.category}</span><span class="badge auth">${d.authority.split(" (")[0]}</span><span class="badge region">${d.region}</span></div>
+      <div class="badges"><span class="badge dom">${dom(d)}</span><span class="badge cat">${d.category}</span><span class="badge region">${d.region}</span></div>
       <div class="casual">
         <div class="c"><span class="cn">${fmt(d.occupants)}</span><span class="cl">Aboard</span></div>
         <div class="c fatal"><span class="cn">${fmt(total)}</span><span class="cl">Fatalities${d.ground?" *":""}</span></div>
@@ -1329,6 +1834,12 @@ function openDrawer(id){
   const total=d.fatalities+d.ground;
   const factorsHTML=Object.keys(d.factors||{}).map(cat=>(d.factors[cat]||[]).map(f=>`<li class="${cat}"><span class="ftag">${FAC_LABEL[cat]}</span>${f}</li>`).join("")).join("");
   const docNote=DOCNOTES[d.id]?`<div class="docnote">${DOCNOTES[d.id]}</div>`:"";
+  const isAir=dom(d)==="Aircraft";
+  const docQ=isAir?d.flight+" air crash investigation documentary":d.flight+" disaster documentary";
+  const anaQ=isAir?d.flight+" analysis Mentour Pilot":d.flight+" failure explained";
+  const docSub=isAir?`Mayday / Air Crash Investigation &amp; reconstructions of ${d.flight}`:`Documentary reconstructions of this event`;
+  const anaVt=isAir?"In-depth pilot / engineer analysis":"In-depth engineering analysis";
+  const anaSub=isAir?"Detailed breakdown of causes &amp; cockpit sequence":"Detailed engineering / cause breakdown";
   $("#drawerContent").innerHTML=`
     <div class="dhead">
       <button class="dclose" id="dclose">×</button>
@@ -1339,7 +1850,8 @@ function openDrawer(id){
     </div>
     <div class="dbody">
       <div class="keygrid">
-        <div class="kv"><div class="k">Operator</div><div class="v">${d.operator}</div></div>
+        <div class="kv"><div class="k">Domain</div><div class="v">${dom(d)}</div></div>
+        <div class="kv"><div class="k">Operator / agency</div><div class="v">${d.operator}</div></div>
         <div class="kv"><div class="k">Route</div><div class="v">${d.origin} → ${d.dest}</div></div>
         <div class="kv"><div class="k">Region / Country</div><div class="v">${d.region} · ${d.country}</div></div>
         <div class="kv"><div class="k">Phase of flight</div><div class="v">${d.phase}</div></div>
@@ -1358,10 +1870,10 @@ function openDrawer(id){
       ${d.significance?`<div class="sec"><h5>Why it matters</h5><div class="signif"><p>${d.significance}</p></div></div>`:""}
       <div class="sec"><h5>Watch &amp; learn</h5>
         <div class="videos">
-          <a class="vidlink" href="${ytSearch(d.flight+' air crash investigation documentary')}" target="_blank" rel="noopener">
-            <span class="yt">${YT_SVG}</span><div><div class="vt">Documentary &amp; reconstruction</div><div class="vs">Mayday / Air Crash Investigation &amp; reconstructions of ${d.flight}</div></div><span class="go">↗</span></a>
-          <a class="vidlink" href="${ytSearch(d.flight+' analysis Mentour Pilot')}" target="_blank" rel="noopener">
-            <span class="yt">${YT_SVG}</span><div><div class="vt">In-depth pilot / engineer analysis</div><div class="vs">Detailed breakdown of causes &amp; cockpit sequence</div></div><span class="go">↗</span></a>
+          <a class="vidlink" href="${ytSearch(docQ)}" target="_blank" rel="noopener">
+            <span class="yt">${YT_SVG}</span><div><div class="vt">Documentary &amp; reconstruction</div><div class="vs">${docSub}</div></div><span class="go">↗</span></a>
+          <a class="vidlink" href="${ytSearch(anaQ)}" target="_blank" rel="noopener">
+            <span class="yt">${YT_SVG}</span><div><div class="vt">${anaVt}</div><div class="vs">${anaSub}</div></div><span class="go">↗</span></a>
         </div>${docNote}
       </div>
       ${d.report?`<a class="reportbtn" href="${d.report}" target="_blank" rel="noopener">📄 Open official report / authority site ↗</a>`:""}
@@ -1395,12 +1907,12 @@ function switchView(v){
 
 /* ---- Events ---- */
 searchEl.addEventListener("input",e=>{state.q=e.target.value;if(!$("#view-registry").classList.contains("active"))switchView("registry");render();});
-const fmap={"#f-mfr":"mfr","#f-region":"region","#f-cat":"cat","#f-auth":"auth","#f-phase":"phase","#f-status":"status","#f-decade":"decade"};
+const fmap={"#f-domain":"domain","#f-mfr":"mfr","#f-region":"region","#f-cat":"cat","#f-auth":"auth","#f-phase":"phase","#f-status":"status","#f-decade":"decade"};
 Object.keys(fmap).forEach(sel=>$(sel).addEventListener("change",e=>{state[fmap[sel]]=e.target.value;render();}));
 $("#sort").addEventListener("change",e=>{state.sort=e.target.value;render();});
 $("#clearBtn").addEventListener("click",()=>{Object.keys(state).forEach(k=>{if(k!=="sort")state[k]="";});searchEl.value="";buildFilters();render();});
 grid.addEventListener("click",e=>{const c=e.target.closest(".card");if(c)openDrawer(c.dataset.id);});
-$("#activeChips").addEventListener("click",e=>{const b=e.target.closest("[data-clear]");if(!b)return;const k=b.dataset.clear;state[k]="";if(k==="q")searchEl.value="";const inv={mfr:"#f-mfr",region:"#f-region",cat:"#f-cat",auth:"#f-auth",phase:"#f-phase",status:"#f-status",decade:"#f-decade"};if(inv[k])$(inv[k]).value="";render();});
+$("#activeChips").addEventListener("click",e=>{const b=e.target.closest("[data-clear]");if(!b)return;const k=b.dataset.clear;state[k]="";if(k==="q")searchEl.value="";const inv={domain:"#f-domain",mfr:"#f-mfr",region:"#f-region",cat:"#f-cat",auth:"#f-auth",phase:"#f-phase",status:"#f-status",decade:"#f-decade"};if(inv[k])$(inv[k]).value="";render();});
 $("#overlay").addEventListener("click",closeDrawer);
 document.querySelectorAll("nav.tabs button").forEach(b=>b.addEventListener("click",()=>switchView(b.dataset.view)));
 $("#glossFilter").addEventListener("input",e=>renderGloss(e.target.value));
